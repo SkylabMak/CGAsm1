@@ -94,7 +94,7 @@ public class Assignment1 extends JPanel {
         // g.setColor(Color.BLACK);
         drawLine(g, x, y+10, x+50, y, Color.BLACK,3);        
         drawLine(g, x+50, y, x+55, y+40, Color.BLACK,3);
-
+        
     }
     
 
