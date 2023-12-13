@@ -1,5 +1,7 @@
 import java.awt.*;
 import java.awt.geom.CubicCurve2D;
+import java.awt.geom.QuadCurve2D;
+import java.util.Random;
 
 import javax.swing.*;
 
@@ -36,6 +38,26 @@ public class Assignment1 extends JPanel {
         }
     }
 
+    private Color randomColor() {
+        Random rand = new Random();
+        float r = rand.nextFloat();
+        float g = rand.nextFloat();
+        float b = rand.nextFloat();
+        return new Color(r, g, b);
+    }
+
+    private int[] getBezierCurveMine(int x1, int y1, int ctrlX, int ctrlY,
+            int x2, int y2, int t, int resolution) {
+
+        float u = t / (float) resolution;
+        float uComp = 1 - u;
+
+        int x = (int) (uComp * uComp * x1 + 2 * uComp * u * ctrlX + u * u * x2);
+        int y = (int) (uComp * uComp * y1 + 2 * uComp * u * ctrlY + u * u * y2);
+
+        return new int[] { x, y };
+    }
+
     private void drawSquare(Graphics g, int x, int y, int x2, int y2, int x3, int y3, int x4, int y4, Color colorO,
             Color colorI,
             int thickness) {
@@ -66,24 +88,35 @@ public class Assignment1 extends JPanel {
         g2d.setStroke(new BasicStroke(thickness, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
         CubicCurve2D curve = new CubicCurve2D.Float(x1, y1, ctrlX1, ctrlY1, ctrlX2, ctrlY2, x2, y2);
         g2d.draw(curve);
-        // for (int i = 1; i <= thickness / 2; i++) {
-        // CubicCurve2D offsetCurve1 = new CubicCurve2D.Float(
-        // x1, y1 + i,
-        // ctrlX1, ctrlY1 + i,
-        // ctrlX2, ctrlY2 + i,
-        // x2, y2 + i
-        // );
-        // g2d.draw(offsetCurve1);
 
-        // CubicCurve2D offsetCurve2 = new CubicCurve2D.Float(
-        // x1, y1 - i,
-        // ctrlX1, ctrlY1 - i,
-        // ctrlX2, ctrlY2 - i,
-        // x2, y2 - i
-        // );
-        // g2d.draw(offsetCurve2);
-        // }
+    }
 
+    private void drawDottedBezierCurve(Graphics g, int x1, int y1, int ctrlX1, int ctrlY1,
+            int ctrlX2, int ctrlY2, int x2, int y2, int thickness, Color color, int dotSpacing) {
+
+        Graphics2D g2d = (Graphics2D) g;
+        g2d.setColor(color);
+
+        // Set the stroke with round joins and dotted pattern
+        g2d.setStroke(new BasicStroke(thickness, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 0,
+                new float[] { dotSpacing }, 0));
+
+        CubicCurve2D curve = new CubicCurve2D.Float(x1, y1, ctrlX1, ctrlY1, ctrlX2, ctrlY2, x2, y2);
+        g2d.draw(curve);
+    }
+
+    private void drawDottedQuadraticBezierCurve(Graphics g, int x1, int y1, int ctrlX, int ctrlY,
+            int x2, int y2, int thickness, Color color, int dotSpacing) {
+
+        Graphics2D g2d = (Graphics2D) g;
+        g2d.setColor(color);
+
+        // Set the stroke with round joins and dotted pattern
+        g2d.setStroke(new BasicStroke(thickness, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 0,
+                new float[] { dotSpacing }, 0));
+
+        QuadCurve2D curve = new QuadCurve2D.Float(x1, y1, ctrlX, ctrlY, x2, y2);
+        g2d.draw(curve);
     }
 
     private void drawLine(Graphics g, int x1, int y1, int x2, int y2, Color color, int thickness) {
@@ -95,7 +128,7 @@ public class Assignment1 extends JPanel {
         g2d.drawLine(x1, y1, x2, y2);
     }
 
-    private void drawCubicBezierCurveWithThickness(Graphics g, int x1, int y1, int ctrlX1, int ctrlY1,
+    private void drawBezierCurveMine(Graphics g, int x1, int y1, int ctrlX1, int ctrlY1,
             int ctrlX2, int ctrlY2, int x2, int y2, int thickness, Color color) {
 
         g.setColor(color);
@@ -121,10 +154,28 @@ public class Assignment1 extends JPanel {
         }
     }
 
-    // Helper method to fill a rectangle (can be replaced with g.drawLine for lines)
-    // private void fillRect(Graphics g, int x, int y, int thickness) {
-    // g.fillRect(x - thickness / 2, y - thickness / 2, thickness, thickness);
-    // }
+    private void drawCubicBezierCurveWithDottedLine(Graphics g, int x1, int y1, int ctrlX1, int ctrlY1,
+            int ctrlX2, int ctrlY2, int x2, int y2, int thickness, Color color, int dotSpacing) {
+
+        g.setColor(color);
+
+        int resolution = 500;
+
+        for (int t = 0; t <= resolution; t++) {
+            float u = t / (float) resolution;
+            float uComp = 1 - u;
+
+            int x = (int) (uComp * uComp * uComp * x1 + 3 * uComp * uComp * u * ctrlX1
+                    + 3 * uComp * u * u * ctrlX2 + u * u * u * x2);
+            int y = (int) (uComp * uComp * uComp * y1 + 3 * uComp * uComp * u * ctrlY1
+                    + 3 * uComp * u * u * ctrlY2 + u * u * u * y2);
+
+            // Draw rectangles to simulate thickness for dotted line
+            if (t % dotSpacing == 0) {
+                fillRect(g, x, y, thickness);
+            }
+        }
+    }
 
     private void fillRect(Graphics g, int x, int y, int thickness) {
         int halfThickness = thickness / 2;
@@ -154,14 +205,25 @@ public class Assignment1 extends JPanel {
         // พื้นหลัง
         drawRectangle(g, 0, 0, 600, 600, Color.WHITE);
 
-        // test curvature
+        // test method
+        // drawBezierCurveMine(g, 50, 100, 100, 50, 200, 150, 550, 100, 9, Color.red);
+        // // Adjust thickness
+        // // here
+        // drawBezierCurve(g, 50, 150, 100, 50, 200, 150, 550, 150, 9, Color.blue); //
+        // Adjust thickness here
 
-        drawCubicBezierCurveWithThickness(g, 50, 100, 100, 50, 200, 150, 550, 100, 9, Color.red); // Adjust thickness
-                                                                                                  // here
-        drawBezierCurve(g, 50, 150, 100, 50, 200, 150, 550, 150, 9, Color.blue); // Adjust thickness here
+        // drawDottedBezierCurve(g, 50, 300, 100, 50, 200, 150, 550, 300, 9,
+        // Color.yellow, 20);
+        // fillRectWithRound(g, 300, 300, 10);
+
+        // work space
         drawNoteBook(g, 50, 450);
-
-        fillRectWithRound(g, 300, 300, 10);
+        drawFireworks(g, 350, -50, 200);
+        drawFireworks(g, 50, 50, 50);
+        drawFireworks(g, 100, 100, 400);
+        // g.setColor(Color.BLACK);
+        // fillRect(g, 200, 100, 5);
+        // fillRect(g, 400, 300, 5);
     }
 
     void drawNoteBook(Graphics g, int x, int y) {
@@ -199,6 +261,48 @@ public class Assignment1 extends JPanel {
         drawLine(g, x + 55, y + 38, x + 82, y + 55, Color.BLACK, 3);// right
         drawLine(g, x + 9, y + 50, x + 40, y + 70, Color.BLACK, 5);// left
         drawLine(g, x + 80, y + 55, x + 40, y + 70, Color.BLACK, 5);// button
+
+    }
+
+    void drawFireworks(Graphics g, int x, int y, int size) {
+        int centerX = x + (size / 2);
+        int centerY = y + (size / 2);
+        int half = (size) / 2;
+        int count = 10;
+        int stepP = half / count;
+        System.out.println(centerY);
+        // ------------------- Don't delete -------------------
+        // for (int i = 1; i <= count; i++) {
+        //     int[] points = getBezierCurveMine(0,0,size,0,size,size,i,count);
+        //     drawDottedQuadraticBezierCurve(g, centerX, centerY, (centerX + (stepP * i) / 2), (y + (stepP * i) / 2),
+        //             (centerX + (stepP * i)),
+        //             (y + stepP * (i)), 1, randomColor(), 3);
+        //     drawDottedQuadraticBezierCurve(g, centerX, centerY, (centerX + (stepP * (i + 1)) / 2),
+        //             (y + size - stepP * (i + (count / 2))), (centerX + (stepP * i)),
+        //             (y + size - stepP * (i - 1)), 1, randomColor(), 3);
+        //     drawDottedQuadraticBezierCurve(g, centerX, centerY, (centerX - (stepP * i) / 2), (y + (stepP * i) / 2),
+        //             (centerX - (stepP * i)),
+        //             (y + stepP * (i)), 1, randomColor(), 3);
+        //     drawDottedQuadraticBezierCurve(g, centerX, centerY, (centerX - (stepP * (i + 1)) / 2),
+        //             (y + size - stepP * (i + (count / 2))), (centerX - (stepP * i)),
+        //             (y + size - stepP * (i - 1)), 1, randomColor(), 3);
+        // }
+        for (int i = 1; i <= count; i++) {
+            int[] points = getBezierCurveMine(0,0,half,0,half,half,i,count);
+            int[] pointsMinus1 = getBezierCurveMine(0,0,half,0,half,half,i-1 ,count);
+            drawDottedQuadraticBezierCurve(g, centerX, centerY, (centerX + (stepP * i) / 2), (y + (stepP * i) / 2),
+                    (centerX + points[0]),
+                    (y +  points[1]), 1, randomColor(), 3);
+            drawDottedQuadraticBezierCurve(g, centerX, centerY, (centerX + (stepP * (i + 1)) / 2),
+                    (y + size - stepP * (i + (count / 2))), (centerX + points[0]),
+                    (y + size - pointsMinus1[1]), 1, randomColor(), 3);
+            drawDottedQuadraticBezierCurve(g, centerX, centerY, (centerX - (stepP * i) / 2), (y + (stepP * i) / 2),
+                    (centerX - points[0]),
+                    (y + points[1]), 1, randomColor(), 3);
+            drawDottedQuadraticBezierCurve(g, centerX, centerY, (centerX - (stepP * (i + 1)) / 2),
+                    (y + size - stepP * (i + (count / 2))), (centerX - points[0]),
+                    (y + size - pointsMinus1[1]), 1, randomColor(), 3);
+        }
 
     }
 
