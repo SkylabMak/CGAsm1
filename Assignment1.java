@@ -46,6 +46,10 @@ public class Assignment1 extends JPanel {
         return new Color(r, g, b);
     }
 
+    double calculateDistance(int x1, int y1, int x2, int y2) {
+        return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+    }
+
     private int[] getBezierCurveMine(int x1, int y1, int ctrlX, int ctrlY,
             int x2, int y2, int t, int resolution) {
 
@@ -133,8 +137,56 @@ public class Assignment1 extends JPanel {
         g2d.draw(curve);
     }
 
+    private void drawDottedQuadraticBezierCurveMinePixel(Graphics g, int x1, int y1, int ctrlX, int ctrlY,
+            int x2, int y2, int thickness, Color color, int dotSpacing, int lenDrawn) {
+        int resolution = 500;
+        int[] previous = new int[] { x1, y1 };
+        boolean skip = false;
+
+        for (int t = 0; t <= resolution; t++) {
+            float u = t / (float) resolution;
+            float uComp = 1 - u;
+            int x = Math.round(uComp * uComp * x1 + 2 * uComp * u * ctrlX + u * u * x2);
+            int y = Math.round(uComp * uComp * y1 + 2 * uComp * u * ctrlY + u * u * y2);
+
+            if (skip) {
+                if (calculateDistance(previous[0], previous[1], x, y) > dotSpacing) {
+                    skip = false;
+                    previous = new int[] { x, y };
+                } else {
+                    continue;
+                }
+            } else if (calculateDistance(previous[0], previous[1], x, y) > lenDrawn) {
+                previous = new int[] { x, y };
+                skip = true;
+                continue;
+            }
+            fillRect(g, x, y, thickness, color);
+        }
+    }
+
+    private void drawDottedQuadraticBezierCurveMine(Graphics g, int x1, int y1, int ctrlX, int ctrlY,
+            int x2, int y2, int thickness, Color color, int dotSpacing, int lenDrawn) {
+        int resolution = 500;
+        int[] previous = new int[] { x1, y1 };
+        int countLenDrawn = 0;
+
+        for (int t = 0; t <= resolution; t++) {
+            if (countLenDrawn > lenDrawn) {
+                t += dotSpacing;
+                countLenDrawn = 0;
+            }
+            float u = t / (float) resolution;
+            float uComp = 1 - u;
+            int x = Math.round(uComp * uComp * x1 + 2 * uComp * u * ctrlX + u * u * x2);
+            int y = Math.round(uComp * uComp * y1 + 2 * uComp * u * ctrlY + u * u * y2);
+            countLenDrawn++;
+
+            fillRect(g, x, y, thickness, color);
+        }
+    }
+
     private void drawLine(Graphics g, int x1, int y1, int x2, int y2, Color color, int thickness) {
-        g.setColor(color);
         int dx = Math.abs(x2 - x1);
         int dy = Math.abs(y2 - y1);
         int sx = (x1 < x2) ? 1 : -1; // left or right
@@ -152,7 +204,9 @@ public class Assignment1 extends JPanel {
         int y = y1;
 
         for (int i = 1; i <= dx; i++) {// this is move main x or y but that is distance
-            fillRect(g, x, y, thickness);
+            fillRect(g, x, y, thickness, color);
+            // plot(g, x, y);
+
             if (D >= 0) {
                 if (isSwap)
                     x += sx;// if y main move x
@@ -174,8 +228,6 @@ public class Assignment1 extends JPanel {
     private void drawBezierCurveMine(Graphics g, int x1, int y1, int ctrlX1, int ctrlY1,
             int ctrlX2, int ctrlY2, int x2, int y2, int thickness, Color color) {
 
-        g.setColor(color);
-
         int resolution = 500;
 
         for (int t = 0; t <= resolution; t++) {
@@ -189,9 +241,9 @@ public class Assignment1 extends JPanel {
 
             // Draw rectangles to simulate thickness
             if (t == 0 || t == resolution) {
-                fillRectWithRound(g, x, y, thickness);
+                fillRectWithRound(g, x, y, thickness, color);
             } else {
-                fillRect(g, x, y, thickness);
+                fillRect(g, x, y, thickness, color);
             }
 
         }
@@ -217,7 +269,7 @@ public class Assignment1 extends JPanel {
     private void drawCubicBezierCurveWithDottedLine(Graphics g, int x1, int y1, int ctrlX1, int ctrlY1,
             int ctrlX2, int ctrlY2, int x2, int y2, int thickness, Color color, int dotSpacing) {
 
-        g.setColor(color);
+        // g.setColor(color);
 
         int resolution = 500;
 
@@ -232,14 +284,14 @@ public class Assignment1 extends JPanel {
 
             // Draw rectangles to simulate thickness for dotted line
             if (t % dotSpacing == 0) {
-                fillRect(g, x, y, thickness);
+                fillRect(g, x, y, thickness, color);
             }
         }
     }
 
-    private void fillRect(Graphics g, int x, int y, int thickness) {
+    private void fillRect(Graphics g, int x, int y, int thickness, Color color) {
         int halfThickness = thickness / 2;
-
+        g.setColor(color);
         for (int i = -halfThickness; i <= halfThickness; i++) {
             for (int j = -halfThickness; j <= halfThickness; j++) {
                 plot(g, x + i, y + j);
@@ -247,10 +299,10 @@ public class Assignment1 extends JPanel {
         }
     }
 
-    private void fillRectWithRound(Graphics g, int x, int y, int thickness) {
+    private void fillRectWithRound(Graphics g, int x, int y, int thickness, Color color) {
         int halfThickness = thickness / 2;
         int radiusSquared = halfThickness * halfThickness;
-
+        g.setColor(color);
         for (int i = -halfThickness; i <= halfThickness; i++) {
             for (int j = -halfThickness; j <= halfThickness; j++) {
                 if (i * i + j * j <= radiusSquared) {
@@ -278,13 +330,17 @@ public class Assignment1 extends JPanel {
 
         // work space
         drawnSky(g, 0, 0);
-        drawNoteBook(g, 50, 450);
         drawFireworks(g, -50, 10, 200);
         drawFireworks(g, 500, 20, 200);
         drawFireworks(g, 150, 200, 100);
+        drawFireworks(g, 100, 300, 75);
+        drawFireworks(g, 50, 350, 50);
+        drawnStar(g, 600, 400, 5);
+        drawnGround(g, 0, 0);
         // drawFireworks(g, 100, 100, 400);
         drawHuman(g, 300, 300, 100);
         drawHuman(g, 410, 300, 100);
+        drawNoteBook(g, 10, 500);
         // g.setColor(Color.BLACK);
         // fillRect(g, 200, 100, 5);
         // fillRect(g, 400, 300, 5);
@@ -295,19 +351,23 @@ public class Assignment1 extends JPanel {
     }
 
     void drawnSky(Graphics g, int x, int y) {
-
+        // start from top down
         // Color colorStart = new Color(167, 138, 124);
         // Color colorEnd = new Color(4, 16, 44);
         // Color colorStart = new Color(68, 106, 168);
         // Color colorEnd = new Color(9, 19, 46);
-        Color colorStart = new Color(121, 163, 185);
-        Color colorEnd = new Color(9, 12, 17);
-        int count = 100;
-        int height = 300;
-        int step = height / count;
-        float divider = 0.5f;
+        // Color colorStart = new Color(121, 163, 185);
+        // Color colorEnd = new Color(9, 12, 17);
+        Color colorStart = new Color(105, 90, 109);
+        Color colorEnd = new Color(18, 26, 58);
+        float count = 300f;
+        float height = 450f;
+        float maxHeight = 400f;
+        float step = height / count;
+        System.out.println(step);
+        float divider = 0.3f;
         // sky
-        for (int i = 0; i < count; i++) {
+        for (int i = 0; i <= count; i++) {
             float ratio = (float) i / count;
             if (i <= count * divider) {
                 ratio = (float) i / (count * divider);
@@ -315,8 +375,53 @@ public class Assignment1 extends JPanel {
                 ratio = 1.0f;
             }
             Color colorCurrent = interpolateColor(colorStart, colorEnd, ratio);
-            int currentY = height - (step * i);
-            drawBezierCurve(g, -50, currentY, 200, currentY - 50, 400, currentY + 50, 650, currentY, 50, colorCurrent);
+            // double r = (double) (i/count)*height;
+            // System.out.println(r );
+            int currentY = (int) (maxHeight - ((i / count) * height));
+            // int currentY = (int)(((i/count)*height));
+            // System.out.println(currentY);
+            drawBezierCurve(g, -50, currentY, 200, currentY - 50, 400, currentY + 50, 650, currentY, (int) step * 3,
+                    colorCurrent);
+        }
+    }
+
+    void drawnGround(Graphics g, int x, int y) {
+        Color colorStart = new Color(29, 36, 0);
+        Color colorEnd = new Color(18, 26, 4);
+        float count = 300f;
+        float height = 350f;
+        float minHeight = 400f;
+        float step = height / count;
+        System.out.println(step);
+        float divider = 0.5f;
+        // sky
+        for (int i = 0; i <= count; i++) {
+            float ratio = (float) i / count;
+            if (i <= count * divider) {
+                ratio = (float) i / (count * divider);
+            } else {
+                ratio = 1.0f;
+            }
+            Color colorCurrent = interpolateColor(colorStart, colorEnd, ratio);
+            // double r = (double) (i/count)*height;
+            // System.out.println(r );
+            int currentY = (int) (minHeight + (i / count) * height);
+            // int currentY = (int)(((i/count)*height));
+            // System.out.println(currentY);
+            drawBezierCurve(g, -50, currentY, 200, currentY - 50, 400, currentY + 50, 650, currentY, (int) step * 3,
+                    colorCurrent);
+        }
+    }
+
+    int getRandomNumber(int min, int max) {
+        return (int) ((Math.random() * (max - min)) + min);
+    }
+
+    void drawnStar(Graphics g, int width, int height, int maxsize) {
+        int count = 200;
+        for (int i = 0; i < count; i++) {
+            fillRectWithRound(g, getRandomNumber(0, width), getRandomNumber(0, height), getRandomNumber(1, maxsize),
+                    Color.WHITE);
         }
     }
 
@@ -325,8 +430,9 @@ public class Assignment1 extends JPanel {
         int red = (int) (startColor.getRed() + ratio * (endColor.getRed() - startColor.getRed()));
         int green = (int) (startColor.getGreen() + ratio * (endColor.getGreen() - startColor.getGreen()));
         int blue = (int) (startColor.getBlue() + ratio * (endColor.getBlue() - startColor.getBlue()));
-        System.out.println(startColor.getRed() + " " + ratio + " " + endColor.getRed() + " " + startColor.getRed());
-        System.out.println(red);
+        // System.out.println(startColor.getRed() + " " + ratio + " " +
+        // endColor.getRed() + " " + startColor.getRed());
+        // System.out.println(red);
 
         return new Color(red, green, blue);
     }
@@ -377,6 +483,8 @@ public class Assignment1 extends JPanel {
     }
 
     void drawFireworks(Graphics g, int x, int y, int size) {
+        int dotSpacing = 10;
+        int drawnLen = 10;
         int centerX = x + (size / 2);
         int centerY = y + (size / 2);
         int half = (size) / 2;
@@ -406,18 +514,18 @@ public class Assignment1 extends JPanel {
         for (int i = 1; i <= count; i++) {
             int[] points = getBezierCurveMine(0, 0, half, 0, half, half, i, count);
             int[] pointsMinus1 = getBezierCurveMine(0, 0, half, 0, half, half, i - 1, count);
-            drawDottedQuadraticBezierCurve(g, centerX, centerY, (centerX + (stepP * i) / 2), (y + (stepP * i) / 2),
+            drawDottedQuadraticBezierCurveMine(g, centerX, centerY, (centerX + (stepP * i) / 2), (y + (stepP * i) / 2),
                     (centerX + points[0]),
-                    (y + points[1]), 1, randomColor(), 3);
-            drawDottedQuadraticBezierCurve(g, centerX, centerY, (centerX + (stepP * (i + 1)) / 2),
+                    (y + points[1]), 1, randomColor(), dotSpacing, drawnLen);
+            drawDottedQuadraticBezierCurveMine(g, centerX, centerY, (centerX + (stepP * (i + 1)) / 2),
                     (y + size - stepP * (i + (count / 2))), (centerX + points[0]),
-                    (y + size - pointsMinus1[1]), 1, randomColor(), 3);
-            drawDottedQuadraticBezierCurve(g, centerX, centerY, (centerX - (stepP * i) / 2), (y + (stepP * i) / 2),
+                    (y + size - pointsMinus1[1]), 1, randomColor(), dotSpacing, drawnLen);
+            drawDottedQuadraticBezierCurveMine(g, centerX, centerY, (centerX - (stepP * i) / 2), (y + (stepP * i) / 2),
                     (centerX - points[0]),
-                    (y + points[1]), 1, randomColor(), 3);
-            drawDottedQuadraticBezierCurve(g, centerX, centerY, (centerX - (stepP * (i + 1)) / 2),
+                    (y + points[1]), 1, randomColor(), dotSpacing, drawnLen);
+            drawDottedQuadraticBezierCurveMine(g, centerX, centerY, (centerX - (stepP * (i + 1)) / 2),
                     (y + size - stepP * (i + (count / 2))), (centerX - points[0]),
-                    (y + size - pointsMinus1[1]), 1, randomColor(), 3);
+                    (y + size - pointsMinus1[1]), 1, randomColor(), dotSpacing, drawnLen);
         }
 
     }
