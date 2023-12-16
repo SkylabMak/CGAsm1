@@ -29,6 +29,10 @@ public class Assignment1 extends JPanel {
         g.fillRect(x, y, 1, 1);
     }
 
+    int getRandomNumber(int min, int max) {
+        return (int) ((Math.random() * (max - min)) + min);
+    }
+
     private void drawRectangle(Graphics g, int x1, int y1, int x2, int y2, Color color) {
         g.setColor(color);
         for (int x = x1; x < x2; x++) {
@@ -92,7 +96,6 @@ public class Assignment1 extends JPanel {
         g2d.setStroke(new BasicStroke(thickness, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
         CubicCurve2D curve = new CubicCurve2D.Float(x1, y1, ctrlX1, ctrlY1, ctrlX2, ctrlY2, x2, y2);
         g2d.draw(curve);
-
     }
 
     private void drawBezierCurve(Graphics g, int x1, int y1, int ctrlX, int ctrlY, int x2,
@@ -123,7 +126,7 @@ public class Assignment1 extends JPanel {
         g2d.draw(curve);
     }
 
-    private void drawDottedQuadraticBezierCurve(Graphics g, int x1, int y1, int ctrlX, int ctrlY,
+    private void drawDottedBezierCurve(Graphics g, int x1, int y1, int ctrlX, int ctrlY,
             int x2, int y2, int thickness, Color color, int dotSpacing) {
 
         Graphics2D g2d = (Graphics2D) g;
@@ -266,29 +269,6 @@ public class Assignment1 extends JPanel {
         }
     }
 
-    private void drawCubicBezierCurveWithDottedLine(Graphics g, int x1, int y1, int ctrlX1, int ctrlY1,
-            int ctrlX2, int ctrlY2, int x2, int y2, int thickness, Color color, int dotSpacing) {
-
-        // g.setColor(color);
-
-        int resolution = 500;
-
-        for (int t = 0; t <= resolution; t++) {
-            float u = t / (float) resolution;
-            float uComp = 1 - u;
-
-            int x = (int) (uComp * uComp * uComp * x1 + 3 * uComp * uComp * u * ctrlX1
-                    + 3 * uComp * u * u * ctrlX2 + u * u * u * x2);
-            int y = (int) (uComp * uComp * uComp * y1 + 3 * uComp * uComp * u * ctrlY1
-                    + 3 * uComp * u * u * ctrlY2 + u * u * u * y2);
-
-            // Draw rectangles to simulate thickness for dotted line
-            if (t % dotSpacing == 0) {
-                fillRect(g, x, y, thickness, color);
-            }
-        }
-    }
-
     private void fillRect(Graphics g, int x, int y, int thickness, Color color) {
         int halfThickness = thickness / 2;
         g.setColor(color);
@@ -312,6 +292,11 @@ public class Assignment1 extends JPanel {
         }
     }
 
+
+    //--------------------------------------- work space---------------------------------------
+    //--------------------------------------- work space---------------------------------------
+    //--------------------------------------- work space---------------------------------------
+    //--------------------------------------- work space---------------------------------------
     private void myPaint(Graphics g) {
         // g.drawPdrawPolygon(g,1200, 1200, 0.5);
         // พื้นหลัง
@@ -345,12 +330,16 @@ public class Assignment1 extends JPanel {
         // fillRect(g, 200, 100, 5);
         // fillRect(g, 400, 300, 5);
     }
+    //--------------------------------------- work space---------------------------------------
+    //--------------------------------------- work space---------------------------------------
+    //--------------------------------------- work space---------------------------------------
+    //--------------------------------------- work space---------------------------------------
 
-    String rgbToHex(int r, int g, int b) {
-        return String.format("#%02x%02x%02x", r, g, b);
-    }
+    // String rgbToHex(int r, int g, int b) {
+    // return String.format("#%02x%02x%02x", r, g, b);
+    // }
 
-    void drawnSky(Graphics g, int x, int y) {
+    private void drawnSky(Graphics g, int x, int y) {
         // start from top down
         // Color colorStart = new Color(167, 138, 124);
         // Color colorEnd = new Color(4, 16, 44);
@@ -385,7 +374,7 @@ public class Assignment1 extends JPanel {
         }
     }
 
-    void drawnGround(Graphics g, int x, int y) {
+    private void drawnGround(Graphics g, int x, int y) {
         Color colorStart = new Color(29, 36, 0);
         Color colorEnd = new Color(18, 26, 4);
         float count = 300f;
@@ -403,21 +392,13 @@ public class Assignment1 extends JPanel {
                 ratio = 1.0f;
             }
             Color colorCurrent = interpolateColor(colorStart, colorEnd, ratio);
-            // double r = (double) (i/count)*height;
-            // System.out.println(r );
             int currentY = (int) (minHeight + (i / count) * height);
-            // int currentY = (int)(((i/count)*height));
-            // System.out.println(currentY);
             drawBezierCurve(g, -50, currentY, 200, currentY - 50, 400, currentY + 50, 650, currentY, (int) step * 3,
                     colorCurrent);
         }
     }
 
-    int getRandomNumber(int min, int max) {
-        return (int) ((Math.random() * (max - min)) + min);
-    }
-
-    void drawnStar(Graphics g, int width, int height, int maxsize) {
+    private void drawnStar(Graphics g, int width, int height, int maxsize) {
         int count = 200;
         for (int i = 0; i < count; i++) {
             fillRectWithRound(g, getRandomNumber(0, width), getRandomNumber(0, height), getRandomNumber(1, maxsize),
@@ -425,7 +406,7 @@ public class Assignment1 extends JPanel {
         }
     }
 
-    Color interpolateColor(Color startColor, Color endColor, float ratio) {
+    private Color interpolateColor(Color startColor, Color endColor, float ratio) {
 
         int red = (int) (startColor.getRed() + ratio * (endColor.getRed() - startColor.getRed()));
         int green = (int) (startColor.getGreen() + ratio * (endColor.getGreen() - startColor.getGreen()));
@@ -437,14 +418,7 @@ public class Assignment1 extends JPanel {
         return new Color(red, green, blue);
     }
 
-    void drawnBackground(Graphics g, int x, int y) {
-
-        // footer
-        // drawBezierCurve(g, -50, y0, x0 + ctrlX, y0, x1, y1 - ctrlY, x1, y1, 50,
-        // Color.BLACK);
-    }
-
-    void drawNoteBook(Graphics g, int x, int y) {
+    private void drawNoteBook(Graphics g, int x, int y) {
         // g.setColor(Color.BLACK);
         // base - board
         drawSquare(g, x + 10, y + 50, x + 56, y + 40, x + 80, y + 55, x + 40, y + 70, null, Color.decode("#40476E"), 1);
@@ -482,7 +456,7 @@ public class Assignment1 extends JPanel {
 
     }
 
-    void drawFireworks(Graphics g, int x, int y, int size) {
+    private void drawFireworks(Graphics g, int x, int y, int size) {
         int dotSpacing = 10;
         int drawnLen = 10;
         int centerX = x + (size / 2);
@@ -530,33 +504,7 @@ public class Assignment1 extends JPanel {
 
     }
 
-    private void drawBezierOval(Graphics g, int x, int y, int width, int height, Color color) {
-        double kappa = 0.5522848; // Kappa is a constant used to approximate the circular arc with cubic Bezier
-                                  // curves
-
-        double ox = 0.5 * width; // Oval x-radius
-        double oy = 0.5 * height; // Oval y-radius
-
-        int ctrlX = (int) (kappa * ox); // Control point offset for x
-        int ctrlY = (int) (kappa * oy); // Control point offset for y
-
-        int x0 = (int) (x + ox);
-        int y0 = (int) y;
-        int x1 = (int) x + width;
-        int y1 = (int) (y + oy);
-        int x2 = (int) (x + ox);
-        int y2 = (int) y + height;
-        int x3 = (int) x;
-        int y3 = (int) (y + oy);
-
-        drawBezierCurve(g, x0, y0, x0 + ctrlX, y0, x1, y1 - ctrlY, x1, y1, 1, Color.BLACK);
-        drawBezierCurve(g, x1, y1, x1, y1 + ctrlY, x2 + ctrlX, y2, x2, y2, 1, Color.BLACK);
-        drawBezierCurve(g, x2, y2, x2 - ctrlX, y2, x3, y3 + ctrlY, x3, y3, 1, Color.BLACK);
-        drawBezierCurve(g, x3, y3, x3, y3 - ctrlY, x0 - ctrlX, y0, x0, y0, 1, Color.BLACK);
-
-    }
-
-    void drawHuman(Graphics g, int x, int y, int size) {
+    private void drawHuman(Graphics g, int x, int y, int size) {
         Color colorLine = Color.BLACK;
         int width = 80;
         // head
