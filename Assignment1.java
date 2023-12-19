@@ -1,7 +1,10 @@
 import java.awt.*;
 import java.awt.geom.CubicCurve2D;
 import java.awt.geom.QuadCurve2D;
+import java.awt.image.BufferedImage;
+import java.util.LinkedList;
 import java.util.Random;
+import java.util.Queue;
 
 import javax.swing.*;
 
@@ -264,8 +267,8 @@ public class Assignment1 extends JPanel {
             int x = (int) (uComp * uComp * x1 + 2 * uComp * u * ctrlX + u * u * x2);
             int y = (int) (uComp * uComp * y1 + 2 * uComp * u * ctrlY + u * u * y2);
 
-            plot(g, x, y);
-            // (g, x, y, thickness);
+            // plot(g, x, y);
+            fillRect(g, x, y, thickness,color);
         }
     }
 
@@ -291,6 +294,51 @@ public class Assignment1 extends JPanel {
             }
         }
     }
+    private boolean isVarid(int x ,int y){
+        return (x>-1&&x<601)&&(y>-1&&y<601);
+    }
+    public BufferedImage floodFill(BufferedImage m, int x, int y, Color border) {
+        Queue<int[]> q = new LinkedList<>();
+
+        q.add(new int[]{x,y});
+        int borderRGB = border.getRGB();
+        int replaceRGB = border.getRGB();
+        
+        int[] currentPos;
+        while (!q.isEmpty()) {
+            currentPos = q.poll();
+            int x1 = currentPos[0];
+            int y1 = currentPos[1];
+            
+
+            if (isVarid(x1,y1)&&m.getRGB(x1, y1) != borderRGB) {
+                m.setRGB(x1, y1, replaceRGB);
+                // south
+                if (isVarid(x1,y1+1)&&m.getRGB(x1, y1+1) != borderRGB) {
+                    q.add(new int[]{x1, y1+1});
+                    // System.out.println("firsy");
+                }
+                // north
+                if (isVarid(x1,y1-1)&&m.getRGB(x1, y1-1) != borderRGB) {
+                    q.add(new int[]{x1, y1-1});
+                    // System.out.println("f2irsy");
+                }
+                // east
+                if (isVarid(x1+1,y1)&&m.getRGB(x1+1, y1) != borderRGB) {
+                    q.add(new int[]{x1+1, y1});
+                    // System.out.println("f3irsy");
+                }
+                // west
+                if (isVarid(x1-1,y1)&&m.getRGB(x1-1, y1) != borderRGB) {
+                    q.add(new int[]{x1-1, y1});
+                    // System.out.println("fir4sy");
+                }
+            }
+        }
+
+
+        return m;
+    }   
 
 
     //--------------------------------------- work space---------------------------------------
@@ -505,55 +553,59 @@ public class Assignment1 extends JPanel {
     }
 
     private void drawHuman(Graphics g, int x, int y, int size) {
+        BufferedImage buffer = new BufferedImage(601, 601, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2 = buffer.createGraphics();
         Color colorLine = Color.BLACK;
         int width = 80;
+        int thickness =2;
         // head
 
+        // g2.f
         int endL[] = { x + 50, y + 34 };
         int endR[] = { x + 69, y + 34 };
-        drawBezierCurveMine(g, endL[0], endL[1], x + 40, y + 13, x + 73, y + 13, endR[0], endR[1], 1, colorLine);
+        drawBezierCurveMine(g2, endL[0], endL[1], x + 40, y + 13, x + 73, y + 13, endR[0], endR[1], thickness, colorLine);
         // ear
-        drawBezierCurveMine(g, x + 48, y + 30, x + 46, y + 31, x + 48, y + 34, 2, colorLine);// l
-        drawBezierCurveMine(g, x + 69, y + 30, x + 72, y + 31, endR[0], endR[1], 2, colorLine);// r
+        drawBezierCurveMine(g2, x + 48, y + 30, x + 46, y + 31, x + 48, y + 34, thickness, colorLine);// l
+        drawBezierCurveMine(g2, x + 69, y + 30, x + 72, y + 31, endR[0], endR[1], thickness, colorLine);// r
         // neck
         int endNL[] = { x + 52, y + 40 };
         int endNR[] = { x + 67, y + 40 };
-        drawBezierCurveMine(g, endL[0], endL[1], x + 51, y + 35, endNL[0], endNL[1], 1, colorLine);
-        drawBezierCurveMine(g, endR[0], endR[1], x + 68, y + 39, endNR[0], endNR[1], 1, colorLine);
+        drawBezierCurveMine(g2, endL[0], endL[1], x + 51, y + 35, endNL[0], endNL[1], thickness, colorLine);
+        drawBezierCurveMine(g2, endR[0], endR[1], x + 68, y + 39, endNR[0], endNR[1], thickness, colorLine);
         // arm
         int startAL1[] = { x + 39, y + 43 };
         int startAL2[] = { x + 37, y + 60 };
         int startAR1[] = { x + 87, y + 45 };
         int startAR2[] = { x + 89, y + 59 };
         // L
-        drawBezierCurveMine(g, startAL1[0], startAL1[1], x + 16, y + 27, x + 25, y + 39, x + 14, y + 11, 1, colorLine);
-        drawBezierCurveMine(g, startAL2[0], startAL2[1], x + 20, y + 50, x + 12, y + 42, x, y + 15, 1, colorLine);
-        drawLine(g, x, y + 15, x + 14, y + 11, Color.BLACK, 1);
+        drawBezierCurveMine(g2, startAL1[0], startAL1[1], x + 16, y + 27, x + 25, y + 39, x + 14, y + 11, thickness, colorLine);
+        drawBezierCurveMine(g2, startAL2[0], startAL2[1], x + 20, y + 50, x + 12, y + 42, x, y + 15, thickness, colorLine);
+        drawLine(g2, x, y + 15, x + 14, y + 11, Color.BLACK, thickness);
         // R
-        drawBezierCurveMine(g, startAR1[0], startAR1[1], x + 108, y + 35, x + 103, y + 40, x + 113, y + 13, 1,
+        drawBezierCurveMine(g2, startAR1[0], startAR1[1], x + 108, y + 35, x + 103, y + 40, x + 113, y + 13, thickness,
                 colorLine);
-        drawBezierCurveMine(g, startAR2[0], startAR2[1], x + 105, y + 58, x + 108, y + 53, x + 126, y + 19, 1,
+        drawBezierCurveMine(g2, startAR2[0], startAR2[1], x + 105, y + 58, x + 108, y + 53, x + 126, y + 19, thickness,
                 colorLine);
-        drawLine(g, x + 113, y + 13, x + 126, y + 19, Color.BLACK, 1);
+        drawLine(g2, x + 113, y + 13, x + 126, y + 19, Color.BLACK, thickness);
         // hand
         // L
-        drawBezierCurveMine(g, x + 5, y + 13, x - 2, y + 5, x + 10, y + 1, x + 14, y + 3, 1, colorLine);
-        drawBezierCurveMine(g, x + 14, y + 3, x + 18, y - 10, x + 18, y + 8, x + 13, y + 12, 1, colorLine);
+        drawBezierCurveMine(g2, x + 5, y + 13, x - 2, y + 5, x + 10, y + 1, x + 14, y + 3, thickness, colorLine);
+        drawBezierCurveMine(g2, x + 14, y + 3, x + 18, y - 10, x + 18, y + 8, x + 13, y + 12, thickness, colorLine);
         // R
-        drawBezierCurveMine(g, x + 122, y + 16, x + 130, y + 5, x + 124, y + 1, x + 114, y + 4, 1, colorLine);
-        drawBezierCurveMine(g, x + 114, y + 4, x + 110, y - 10, x + 110, y + 8, x + 114, y + 13, 1, colorLine);
+        drawBezierCurveMine(g2, x + 122, y + 16, x + 130, y + 5, x + 124, y + 1, x + 114, y + 4, thickness, colorLine);
+        drawBezierCurveMine(g2, x + 114, y + 4, x + 110, y - 10, x + 110, y + 8, x + 114, y + 13, thickness, colorLine);
         // shirt
         int endSL[] = { x + 37, y + 109 };
         int endSR[] = { x + 89, y + 108 };
         // L
-        drawBezierCurveMine(g, endNL[0], endNL[1], x + 41, y + 38, x + 41, y + 38, startAL1[0], startAL1[1], 1,
+        drawBezierCurveMine(g2, endNL[0], endNL[1], x + 41, y + 38, x + 41, y + 38, startAL1[0], startAL1[1], thickness,
                 colorLine);
-        drawBezierCurveMine(g, startAL2[0], startAL2[1], x + 16, y + 115, x + 16, y + 95, endSL[0], endSL[1], 1,
+        drawBezierCurveMine(g2, startAL2[0], startAL2[1], x + 16, y + 115, x + 16, y + 95, endSL[0], endSL[1], thickness,
                 colorLine);
         // R
-        drawBezierCurveMine(g, endNR[0], endNR[1], x + 83, y + 36, x + 79, y + 39, startAR1[0], startAR1[1], 1,
+        drawBezierCurveMine(g2, endNR[0], endNR[1], x + 83, y + 36, x + 79, y + 39, startAR1[0], startAR1[1], thickness,
                 colorLine);
-        drawBezierCurveMine(g, startAR2[0], startAR2[1], x + 104, y + 114, x + 114, y + 104, endSR[0], endSR[1], 1,
+        drawBezierCurveMine(g2, startAR2[0], startAR2[1], x + 104, y + 114, x + 114, y + 104, endSR[0], endSR[1], thickness,
                 colorLine);
         // trousers
         int endTL1[] = { x + 32, y + 205 };
@@ -562,23 +614,43 @@ public class Assignment1 extends JPanel {
         int endTR2[] = { x + 84, y + 201 };
         int center[] = { x + 64, y + 128 };
         // L
-        drawBezierCurveMine(g, endSL[0], endSL[1], x + 34, y + 200, endTL1[0], endTL1[1], 1, colorLine);
-        drawBezierCurveMine(g, center[0], center[1], x + 53, y + 200, x + 53, y + 194, endTL2[0], endTL2[1], 1,
+        drawBezierCurveMine(g2, endSL[0], endSL[1], x + 34, y + 200, endTL1[0], endTL1[1], thickness, colorLine);
+        drawBezierCurveMine(g2, center[0], center[1], x + 53, y + 200, x + 53, y + 194, endTL2[0], endTL2[1], thickness,
                 colorLine);
         // R
-        drawBezierCurveMine(g, endSR[0], endSR[1], x + 103, y + 219, x + 103, y + 208, endTR1[0], endTR1[1], 1,
+        drawBezierCurveMine(g2, endSR[0], endSR[1], x + 103, y + 219, x + 103, y + 208, endTR1[0], endTR1[1], thickness,
                 colorLine);
-        drawBezierCurveMine(g, center[0], center[1], x + 74, y + 162, x + 71, y + 149, endTR2[0], endTR2[1], 1,
+        drawBezierCurveMine(g2, center[0], center[1], x + 74, y + 162, x + 71, y + 149, endTR2[0], endTR2[1], thickness,
                 colorLine);
         // foot
         // L
-        drawBezierCurveMine(g, endTL1[0], endTL1[1], x + 27, y + 207, x + 40, y + 217, x + 34, y + 222, 1, colorLine);
-        drawBezierCurveMine(g, x + 34, y + 222, x + 26, y + 230, x + 53, y + 230, x + 45, y + 220, 1, colorLine);
-        drawBezierCurveMine(g, x + 45, y + 220, x + 45, y + 210, x + 55, y + 205, endTL2[0], endTL2[1], 1, colorLine);
+        drawBezierCurveMine(g2, endTL1[0], endTL1[1], x + 27, y + 207, x + 40, y + 217, x + 34, y + 222, thickness, colorLine);
+        drawBezierCurveMine(g2, x + 34, y + 222, x + 26, y + 230, x + 53, y + 230, x + 45, y + 220, thickness, colorLine);
+        drawBezierCurveMine(g2, x + 45, y + 220, x + 45, y + 210, x + 55, y + 205, endTL2[0], endTL2[1], thickness, colorLine);
         // R
-        drawBezierCurveMine(g, endTR1[0], endTR1[1], x + 100, y + 214, x + 98, y + 219, x + 100, y + 222, 1, colorLine);
-        drawBezierCurveMine(g, x + 100, y + 222, x + 103, y + 226, x + 83, y + 229, x + 88, y + 221, 1, colorLine);
-        drawBezierCurveMine(g, x + 88, y + 221, x + 90, y + 210, x + 79, y + 210, endTR2[0], endTR2[1], 1, colorLine);
+        drawBezierCurveMine(g2, endTR1[0], endTR1[1], x + 100, y + 214, x + 98, y + 219, x + 100, y + 222, thickness, colorLine);
+        drawBezierCurveMine(g2, x + 100, y + 222, x + 103, y + 226, x + 83, y + 229, x + 88, y + 221, thickness, colorLine);
+        drawBezierCurveMine(g2, x + 88, y + 221, x + 90, y + 210, x + 79, y + 210, endTR2[0], endTR2[1], thickness, colorLine);
+        
+        //fill
+        int xPoly[] = { 150, 250, 325, 375, 400, 275, 100 };
+        int yPoly[] = { 150, 100, 125, 225, 325, 375, 300 };
+
+        // g2.setColor(Color.gray);
+        // g2.fillRect(0, 0, 600, 600);
+        // g2.setColor(Color.BLACK);
+        // Polygon poly = new Polygon(xPoly, yPoly, xPoly.length);
+        // g2.drawPolygon(poly);
+
+       
+        // buffer = floodFill(buffer,300, 300 ,Color.BLACK);
+        buffer = floodFill(buffer,x+9, y+7 ,Color.BLACK);//left
+        buffer = floodFill(buffer,x+118, y+7,Color.BLACK);//right
+        buffer = floodFill(buffer,x+50, y+100,Color.BLACK);
+        // g2.setColor(Color.red);
+        // g2.fillRect(x+118, y+7 , 2, 2);
+        // buffer = floodFill(buffer,100, 100 ,Color.BLACK);
+        g.drawImage(buffer, 0, 0, null);
     }
 
 }
