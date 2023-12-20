@@ -45,6 +45,14 @@ public class Assignment1 extends JPanel {
         }
     }
 
+private void drawnOval(Graphics g,int x,int y,int width,int height,Color color){
+    g.setColor(color);
+    int xR = width/2;
+    int yR = height/2;
+    g.fillOval(x-xR,y-yR,width,height);
+}
+
+
     private Color randomColor() {
         Random rand = new Random();
         float r = rand.nextFloat();
@@ -374,6 +382,7 @@ public class Assignment1 extends JPanel {
         drawHuman(g, 300, 300, 100);
         drawHuman(g, 410, 300, 100);
         drawNoteBook(g, 10, 500);
+        drawOvalGradient(g,300,50,100,50);
         // g.setColor(Color.BLACK);
         // fillRect(g, 200, 100, 5);
         // fillRect(g, 400, 300, 5);
@@ -466,6 +475,14 @@ public class Assignment1 extends JPanel {
         return new Color(red, green, blue);
     }
 
+    private int interpolateNumber(int start, int end, float ratio) {
+
+        int x = (int) (start + ratio * (end - start));
+        
+
+        return x;
+    }
+
     private void drawNoteBook(Graphics g, int x, int y) {
         // g.setColor(Color.BLACK);
         // base - board
@@ -502,6 +519,24 @@ public class Assignment1 extends JPanel {
         drawLine(g, x + 9, y + 50, x + 40, y + 70, Color.BLACK, 5);// left
         drawLine(g, x + 80, y + 55, x + 40, y + 70, Color.BLACK, 5);// button
 
+    }
+
+    private void drawOvalGradient(Graphics g, int x, int y, int width, int height) {
+        int centerX = x + (width / 2);
+        int centerY = y + (height / 2);
+        int count = 100000;
+        Color colorStart = Color.yellow;
+        Color colorEnd = new Color(18, 26, 4);
+        float weight = 0.9f; // Adjust this value to control the gradient ratio
+    
+        for (int i = count; i >= 1; i--) {
+            float ratio = (float) i / count;
+            float ratioColor = weight * ratio * ratio; // Adjusted ratio for color interpolation
+            Color colorCurrent = interpolateColor(colorStart, colorEnd, ratioColor);
+            int xR = interpolateNumber(1, width, ratio);
+            int yR = interpolateNumber(1, height, ratio);
+            drawnOval(g, centerX, centerY, xR, yR, colorCurrent);
+        }
     }
 
     private void drawFireworks(Graphics g, int x, int y, int size) {
