@@ -99,15 +99,15 @@ private void drawnOval(Graphics g,int x,int y,int width,int height,Color color){
 
     }
 
-    private void drawBezierCurve(Graphics g, int x1, int y1, int ctrlX1, int ctrlY1, int ctrlX2, int ctrlY2, int x2,
-            int y2, int thickness,
-            Color color) {
-        g.setColor(color);
-        Graphics2D g2d = (Graphics2D) g;
-        g2d.setStroke(new BasicStroke(thickness, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
-        CubicCurve2D curve = new CubicCurve2D.Float(x1, y1, ctrlX1, ctrlY1, ctrlX2, ctrlY2, x2, y2);
-        g2d.draw(curve);
-    }
+    // private void drawBezierCurve(Graphics g, int x1, int y1, int ctrlX1, int ctrlY1, int ctrlX2, int ctrlY2, int x2,
+    //         int y2, int thickness,
+    //         Color color) {
+    //     g.setColor(color);
+    //     Graphics2D g2d = (Graphics2D) g;
+    //     g2d.setStroke(new BasicStroke(thickness, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
+    //     CubicCurve2D curve = new CubicCurve2D.Float(x1, y1, ctrlX1, ctrlY1, ctrlX2, ctrlY2, x2, y2);
+    //     g2d.draw(curve);
+    // }
 
     private void drawBezierCurve(Graphics g, int x1, int y1, int ctrlX, int ctrlY, int x2,
             int y2, int thickness, Color color) {
@@ -175,7 +175,7 @@ private void drawnOval(Graphics g,int x,int y,int width,int height,Color color){
                 skip = true;
                 continue;
             }
-            fillRect(g, x, y, thickness, color);
+            fillRectMine(g, x, y, thickness, color);
         }
     }
 
@@ -196,7 +196,7 @@ private void drawnOval(Graphics g,int x,int y,int width,int height,Color color){
             int y = Math.round(uComp * uComp * y1 + 2 * uComp * u * ctrlY + u * u * y2);
             countLenDrawn++;
 
-            fillRect(g, x, y, thickness, color);
+            fillRectMine(g, x, y, thickness, color);
         }
     }
 
@@ -218,7 +218,7 @@ private void drawnOval(Graphics g,int x,int y,int width,int height,Color color){
         int y = y1;
 
         for (int i = 1; i <= dx; i++) {// this is move main x or y but that is distance
-            fillRect(g, x, y, thickness, color);
+            fillRectMine(g, x, y, thickness, color);
             // plot(g, x, y);
 
             if (D >= 0) {
@@ -257,7 +257,7 @@ private void drawnOval(Graphics g,int x,int y,int width,int height,Color color){
             if (t == 0 || t == resolution) {
                 fillRectWithRound(g, x, y, thickness, color);
             } else {
-                fillRect(g, x, y, thickness, color);
+                fillRectMine(g, x, y, thickness, color);
             }
 
         }
@@ -276,11 +276,11 @@ private void drawnOval(Graphics g,int x,int y,int width,int height,Color color){
             int y = (int) (uComp * uComp * y1 + 2 * uComp * u * ctrlY + u * u * y2);
 
             // plot(g, x, y);
-            fillRect(g, x, y, thickness,color);
+            fillRectMine(g, x, y, thickness,color);
         }
     }
 
-    private void fillRect(Graphics g, int x, int y, int thickness, Color color) {
+    private void fillRectMine(Graphics g, int x, int y, int thickness, Color color) {
         int halfThickness = thickness / 2;
         g.setColor(color);
         for (int i = -halfThickness; i <= halfThickness; i++) {
@@ -289,6 +289,27 @@ private void drawnOval(Graphics g,int x,int y,int width,int height,Color color){
             }
         }
     }
+
+        private Color interpolateColor(Color startColor, Color endColor, float ratio) {
+
+        int red = (int) (startColor.getRed() + ratio * (endColor.getRed() - startColor.getRed()));
+        int green = (int) (startColor.getGreen() + ratio * (endColor.getGreen() - startColor.getGreen()));
+        int blue = (int) (startColor.getBlue() + ratio * (endColor.getBlue() - startColor.getBlue()));
+        // System.out.println(startColor.getRed() + " " + ratio + " " +
+        // endColor.getRed() + " " + startColor.getRed());
+        // System.out.println(red);
+
+        return new Color(red, green, blue);
+    }
+
+    private int interpolateNumber(int start, int end, float ratio) {
+
+        int x = (int) (start + ratio * (end - start));
+        
+
+        return x;
+    }
+
 
     private void fillRectWithRound(Graphics g, int x, int y, int thickness, Color color) {
         int halfThickness = thickness / 2;
@@ -306,11 +327,14 @@ private void drawnOval(Graphics g,int x,int y,int width,int height,Color color){
         return (x>-1&&x<601)&&(y>-1&&y<601);
     }
     public BufferedImage floodFill(BufferedImage m, int x, int y, Color border) {
+        return floodFill(m,x,y,border,border);
+    }
+    public BufferedImage floodFill(BufferedImage m, int x, int y, Color border,Color replace) {
         Queue<int[]> q = new LinkedList<>();
 
         q.add(new int[]{x,y});
         int borderRGB = border.getRGB();
-        int replaceRGB = border.getRGB();
+        int replaceRGB = replace.getRGB();
         
         int[] currentPos;
         while (!q.isEmpty()) {
@@ -319,34 +343,30 @@ private void drawnOval(Graphics g,int x,int y,int width,int height,Color color){
             int y1 = currentPos[1];
             
 
-            if (isVarid(x1,y1)&&m.getRGB(x1, y1) != borderRGB) {
+            if (isVarid(x1,y1)&&m.getRGB(x1, y1) != borderRGB&&m.getRGB(x1, y1) != replaceRGB) {
                 m.setRGB(x1, y1, replaceRGB);
                 // south
-                if (isVarid(x1,y1+1)&&m.getRGB(x1, y1+1) != borderRGB) {
+                if (isVarid(x1,y1+1)&&m.getRGB(x1, y1+1) != borderRGB&&m.getRGB(x1, y1+1) != replaceRGB) {
                     q.add(new int[]{x1, y1+1});
-                    // System.out.println("firsy");
                 }
                 // north
-                if (isVarid(x1,y1-1)&&m.getRGB(x1, y1-1) != borderRGB) {
+                if (isVarid(x1,y1-1)&&m.getRGB(x1, y1-1) != borderRGB&&m.getRGB(x1, y1-1) != replaceRGB) {
                     q.add(new int[]{x1, y1-1});
-                    // System.out.println("f2irsy");
                 }
                 // east
-                if (isVarid(x1+1,y1)&&m.getRGB(x1+1, y1) != borderRGB) {
+                if (isVarid(x1+1,y1)&&m.getRGB(x1+1, y1) != borderRGB&&m.getRGB(x1+1, y1) != replaceRGB) {
                     q.add(new int[]{x1+1, y1});
-                    // System.out.println("f3irsy");
                 }
                 // west
-                if (isVarid(x1-1,y1)&&m.getRGB(x1-1, y1) != borderRGB) {
+                if (isVarid(x1-1,y1)&&m.getRGB(x1-1, y1) != borderRGB&&m.getRGB(x1-1, y1) != replaceRGB) {
                     q.add(new int[]{x1-1, y1});
-                    // System.out.println("fir4sy");
                 }
             }
         }
 
 
         return m;
-    }   
+    }      
 
 
     //--------------------------------------- work space---------------------------------------
@@ -371,18 +391,23 @@ private void drawnOval(Graphics g,int x,int y,int width,int height,Color color){
 
         // work space
         drawnSky(g, 0, 0);
-        drawFireworks(g, -50, 10, 200);
-        drawFireworks(g, 500, 20, 200);
-        drawFireworks(g, 150, 200, 100);
-        drawFireworks(g, 100, 300, 75);
-        drawFireworks(g, 50, 350, 50);
         drawnStar(g, 600, 400, 5);
+        drawOvalGradient(g,250,50,200,200);
+        drawOvalGradient(g,-50, 10, 200,200);
+        drawFireworks(g, -50, 10, 200);
+        drawOvalGradient(g,500, 50,  200,200);
+        drawFireworks(g, 500, 50, 200);
+        // drawOvalGradient(g,150+25, 200+25, 50,50);
+        drawnMiniFireWorks(g,340, 600, 50, 50);
+        // drawFireworks(g, 150, 200, 100);
+        // drawFireworks(g, 100, 300, 75);
+        // drawFireworks(g, 50, 350, 50);
         drawnGround(g, 0, 0);
         // drawFireworks(g, 100, 100, 400);
         drawHuman(g, 300, 300, 100);
         drawHuman(g, 410, 300, 100);
         drawNoteBook(g, 10, 500);
-        drawOvalGradient(g,300,50,100,50);
+       
         // g.setColor(Color.BLACK);
         // fillRect(g, 200, 100, 5);
         // fillRect(g, 400, 300, 5);
@@ -396,6 +421,14 @@ private void drawnOval(Graphics g,int x,int y,int width,int height,Color color){
     // return String.format("#%02x%02x%02x", r, g, b);
     // }
 
+    private void drawnMiniFireWorks(Graphics g,int y, int width, int height, int maxsize) {
+        int count = 50;
+        for (int i = 0; i < count; i++) {
+            float ratio = (float) i / count;
+            int ratioX= (int)(ratio * width);
+            drawFireworks(g, getRandomNumber(ratioX, ratioX*2), getRandomNumber(y, y+height),getRandomNumber(10, maxsize));
+        }
+    }
     private void drawnSky(Graphics g, int x, int y) {
         // start from top down
         // Color colorStart = new Color(167, 138, 124);
@@ -426,7 +459,7 @@ private void drawnOval(Graphics g,int x,int y,int width,int height,Color color){
             int currentY = (int) (maxHeight - ((i / count) * height));
             // int currentY = (int)(((i/count)*height));
             // System.out.println(currentY);
-            drawBezierCurve(g, -50, currentY, 200, currentY - 50, 400, currentY + 50, 650, currentY, (int) step * 3,
+            drawBezierCurveMine(g, -50, currentY, 200, currentY - 50, 400, currentY + 50, 650, currentY, (int) step * 3,
                     colorCurrent);
         }
     }
@@ -450,7 +483,7 @@ private void drawnOval(Graphics g,int x,int y,int width,int height,Color color){
             }
             Color colorCurrent = interpolateColor(colorStart, colorEnd, ratio);
             int currentY = (int) (minHeight + (i / count) * height);
-            drawBezierCurve(g, -50, currentY, 200, currentY - 50, 400, currentY + 50, 650, currentY, (int) step * 3,
+            drawBezierCurveMine(g, -50, currentY, 200, currentY - 50, 400, currentY + 50, 650, currentY, (int) step * 3,
                     colorCurrent);
         }
     }
@@ -463,38 +496,21 @@ private void drawnOval(Graphics g,int x,int y,int width,int height,Color color){
         }
     }
 
-    private Color interpolateColor(Color startColor, Color endColor, float ratio) {
-
-        int red = (int) (startColor.getRed() + ratio * (endColor.getRed() - startColor.getRed()));
-        int green = (int) (startColor.getGreen() + ratio * (endColor.getGreen() - startColor.getGreen()));
-        int blue = (int) (startColor.getBlue() + ratio * (endColor.getBlue() - startColor.getBlue()));
-        // System.out.println(startColor.getRed() + " " + ratio + " " +
-        // endColor.getRed() + " " + startColor.getRed());
-        // System.out.println(red);
-
-        return new Color(red, green, blue);
-    }
-
-    private int interpolateNumber(int start, int end, float ratio) {
-
-        int x = (int) (start + ratio * (end - start));
-        
-
-        return x;
-    }
 
     private void drawNoteBook(Graphics g, int x, int y) {
         // g.setColor(Color.BLACK);
         // base - board
-        drawSquare(g, x + 10, y + 50, x + 56, y + 40, x + 80, y + 55, x + 40, y + 70, null, Color.decode("#40476E"), 1);
+        BufferedImage buffer = new BufferedImage(601, 601, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2 = buffer.createGraphics();
+        drawSquare(g2, x + 10, y + 50, x + 56, y + 40, x + 80, y + 55, x + 40, y + 70, null, Color.decode("#40476E"), 1);
         // keyboard
-        drawSquare(g, x + 20, y + 51, x + 55, y + 43, x + 72, y + 52, x + 40, y + 63, Color.black,
+        drawSquare(g2, x + 20, y + 51, x + 55, y + 43, x + 72, y + 52, x + 40, y + 63, Color.black,
                 Color.decode("#82869C"), 1);
         // keyboard horizon
         int r = 0;
         int c = 0;
         for (int i = 0; i < 26; i += 4) {
-            drawLine(g, x + 23 + i, y + 51 - r, x + 42 + i, y + 63 - r - c, Color.BLACK, 1);// top
+            drawLine(g2, x + 23 + i, y + 51 - r, x + 42 + i, y + 63 - r - c, Color.BLACK, 1);// top
             r++;
             c++;
         }
@@ -502,36 +518,46 @@ private void drawnOval(Graphics g,int x,int y,int width,int height,Color color){
         r = 0;
         c = 0;
         for (int i = 0; i < 9; i += 2) {
-            drawLine(g, x + 23 + r, y + 51 + i, x + 55 + r, y + 43 + i, Color.BLACK, 1);// top
+            drawLine(g2, x + 23 + r, y + 51 + i, x + 55 + r, y + 43 + i, Color.BLACK, 1);// top
             r += 4;
             c++;
         }
-
         // monitor
-        drawLine(g, x, y + 10, x + 50, y, Color.BLACK, 3);// top
-        drawLine(g, x + 50, y, x + 55, y + 40, Color.BLACK, 3);// right
-        drawLine(g, x + 55, y + 40, x + 10, y + 50, Color.BLACK, 3);// crease
-        drawLine(g, x + 8, y + 50, x, y + 10, Color.BLACK, 4);// left
+        drawLine(g2, x, y + 10, x + 50, y, Color.BLACK, 3);// top
+        drawLine(g2, x + 50, y, x + 55, y + 40, Color.BLACK, 3);// right
+        drawLine(g2, x + 55, y + 40, x + 10, y + 50, Color.BLACK, 3);// crease
+        drawLine(g2, x + 8, y + 50, x, y + 10, Color.BLACK, 4);// left
+        
+        // monitor interior
+        buffer = floodFill(buffer,x+40, y+30,Color.black,Color.decode("#40476E"));
+        g2.setColor(Color.red);
+        g2.fillRect(x+40, y+30, 2, 2);
+        // drawSquare(g, x+3 , y + 10+2, x + 50, y+2, x + 55, y + 40-1, x + 10, y + 50-2, null, Color.decode("#40476E"), 1);
+
         // drawRectangle(g, x, y1, x2, y2, Color.CYAN);
 
         // base - edge
-        drawLine(g, x + 55, y + 38, x + 82, y + 55, Color.BLACK, 3);// right
-        drawLine(g, x + 9, y + 50, x + 40, y + 70, Color.BLACK, 5);// left
-        drawLine(g, x + 80, y + 55, x + 40, y + 70, Color.BLACK, 5);// button
-
+        drawLine(g2, x + 55, y + 38, x + 82, y + 55, Color.BLACK, 3);// right
+        drawLine(g2, x + 9, y + 50, x + 40, y + 70, Color.BLACK, 5);// left
+        drawLine(g2, x + 80, y + 55, x + 40, y + 70, Color.BLACK, 5);// button
+        
+        // g2.setColor(Color.red);
+        // g2.fillRect(x+118, y+7 , 2, 2);
+        // buffer = floodFill(buffer,100, 100 ,Color.BLACK);
+        g.drawImage(buffer, 0, 0, null);
     }
 
     private void drawOvalGradient(Graphics g, int x, int y, int width, int height) {
         int centerX = x + (width / 2);
         int centerY = y + (height / 2);
-        int count = 100000;
-        Color colorStart = Color.yellow;
-        Color colorEnd = new Color(18, 26, 4);
+        int count = 100;
+        Color colorStart = new Color(105, 90, 109);
+        Color colorEnd = new Color(18, 26, 58);
         float weight = 0.9f; // Adjust this value to control the gradient ratio
     
         for (int i = count; i >= 1; i--) {
             float ratio = (float) i / count;
-            float ratioColor = weight * ratio * ratio; // Adjusted ratio for color interpolation
+            float ratioColor = ratio; // Adjusted ratio for color interpolation
             Color colorCurrent = interpolateColor(colorStart, colorEnd, ratioColor);
             int xR = interpolateNumber(1, width, ratio);
             int yR = interpolateNumber(1, height, ratio);
@@ -547,27 +573,6 @@ private void drawnOval(Graphics g,int x,int y,int width,int height,Color color){
         int half = (size) / 2;
         int count = 10;
         int stepP = half / count;
-        // System.out.println(centerY);
-        // ------------------- Don't delete -------------------
-        // for (int i = 1; i <= count; i++) {
-        // int[] points = getBezierCurveMine(0,0,size,0,size,size,i,count);
-        // drawDottedQuadraticBezierCurve(g, centerX, centerY, (centerX + (stepP * i) /
-        // 2), (y + (stepP * i) / 2),
-        // (centerX + (stepP * i)),
-        // (y + stepP * (i)), 1, randomColor(), 3);
-        // drawDottedQuadraticBezierCurve(g, centerX, centerY, (centerX + (stepP * (i +
-        // 1)) / 2),
-        // (y + size - stepP * (i + (count / 2))), (centerX + (stepP * i)),
-        // (y + size - stepP * (i - 1)), 1, randomColor(), 3);
-        // drawDottedQuadraticBezierCurve(g, centerX, centerY, (centerX - (stepP * i) /
-        // 2), (y + (stepP * i) / 2),
-        // (centerX - (stepP * i)),
-        // (y + stepP * (i)), 1, randomColor(), 3);
-        // drawDottedQuadraticBezierCurve(g, centerX, centerY, (centerX - (stepP * (i +
-        // 1)) / 2),
-        // (y + size - stepP * (i + (count / 2))), (centerX - (stepP * i)),
-        // (y + size - stepP * (i - 1)), 1, randomColor(), 3);
-        // }
         for (int i = 1; i <= count; i++) {
             int[] points = getBezierCurveMine(0, 0, half, 0, half, half, i, count);
             int[] pointsMinus1 = getBezierCurveMine(0, 0, half, 0, half, half, i - 1, count);
