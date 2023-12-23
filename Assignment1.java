@@ -52,6 +52,126 @@ public class Assignment1 extends JPanel {
         g.fillOval(x - xR, y - yR, width, height);
     }
 
+    // private void drawnOvalMine(Graphics g, int x, int y, int width, int height,
+    // Color color) {
+    // BufferedImage buffer = new BufferedImage(601, 601,
+    // BufferedImage.TYPE_INT_ARGB);
+    // Graphics2D g2 = buffer.createGraphics();
+    // int xR = width / 2;
+    // int yR = height / 2;
+
+    // g2.setColor(color);
+
+    // for (double angle = 0; angle <= 2 * Math.PI; angle += 0.01) {
+    // int currentX = (int) Math.round(x + xR * Math.cos(angle));
+    // int currentY = (int) Math.round(y + yR * Math.sin(angle));
+
+    // fillRectMine(g2, currentX, currentY,2,color);
+    // // g2.getColor(currentX, currentY);
+    // // g2.get
+    // }
+    // // int startX = x + xR; // Adjust the starting point for flood fill
+    // // int startY = y;
+    // buffer = floodFill(buffer, x, y, color);
+    // // g2.setColor(Color.red);
+    // // g2.fillRect(325, 300, 2, 2);
+    // g.drawImage(buffer, 0, 0, null);
+    // }
+
+    private void drawnOvalMine(Graphics g, int x, int y, int width, int height, Color color) {
+        BufferedImage buffer = new BufferedImage(601, 601, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2 = buffer.createGraphics();
+        // g2.setColor(color);
+        int xR = width / 2;
+        int yR = height / 2;
+        int xV = 0;
+        int yV = 0;
+        // Graphics2D g2d = (Graphics2D) g;
+        // g2d.setColor(color);
+
+        // int xStart = x - xR;
+        // int yStart = y - yR;
+        // int xEnd = x + xR;
+        // int yEnd = y + yR;
+
+        // for (int i = xStart; i <= xEnd; i++) {
+        // for (int j = yStart; j <= yEnd; j++) {
+        // if (isInsideEllipse(i, j, x, y, xR, yR)) {
+        // g2d.fillRect(i, j, 1, 1);
+        // }
+        // }
+        // }
+        // for (int i = 0; i < width; i++) {
+        // for (int j = 0; j < height; j++) {
+        // int currentX = x - xR + i;
+        // int currentY = y - yR + j;
+        // // Check if the point is inside the ellipse equation
+        // if (isInsideEllipse(currentX, currentY, x, y, xR, yR)) {
+        // plot(g, currentX, currentY);
+        // }
+        // }
+        // }
+        for (double angle = 0; angle <= 2 * Math.PI; angle += 0.01) {
+            int currentX = (int) Math.round(x + xR * Math.cos(angle));
+            int currentY = (int) Math.round(y + yR * Math.sin(angle));
+
+            if (!isVarid(currentX, currentY)) {
+                continue;
+            }
+            xV = currentX;
+            yV = currentY;
+            setRGBMine(buffer, currentX, currentY, 2, color);
+        }
+        boolean found = false;
+        if (!isVarid(x, y)) {
+            int xStart = x - xR;
+            int yStart = y - yR;
+            int xEnd = x + xR;
+            int yEnd = y + yR;
+            // g2.setColor(Color.green);
+            for (int i = xStart; i <= xEnd; i++) {
+                for (int j = yStart; j <= yEnd; j++) {
+                    if (isVarid(i, j) && isInsideEllipse(i, j, x, y, xR, yR)) {
+                        // System.out.println("found");
+                        found = true;
+                        x = i;
+                        y = j;
+                        break;
+                    }
+                }
+                if (found)
+                    break;
+            }
+            // System.out.println();
+        }
+        buffer = floodFillAlpha(buffer, x, y, color, color);
+        // g2.setColor(Color.RED);
+        // g2.fillRect(x, y, 2, 2);
+        g.drawImage(buffer, 0, 0, null);
+    }
+
+    private void setRGBMine(BufferedImage buffer, int x, int y, int thickness, Color color) {
+        int halfThickness = thickness / 2;
+        // g.setColor(color);
+        for (int i = -halfThickness; i <= halfThickness; i++) {
+            for (int j = -halfThickness; j <= halfThickness; j++) {
+                if (!isVarid(x + i, y + j)) {
+                    continue;
+                }
+                buffer.setRGB(x + i, y + j, color.getRGB());
+            }
+        }
+    }
+
+    private boolean isInsideEllipse(int x, int y, int centerX, int centerY, int xRadius, int yRadius) {
+        // Ellipse equation: ((x - centerX) / xRadius)^2 + ((y - centerY) / yRadius)^2
+        // <= 1
+        double normalizedX = (x - centerX) / (double) xRadius;
+        double normalizedY = (y - centerY) / (double) yRadius;
+        double equationResult = Math.pow(normalizedX, 2) + Math.pow(normalizedY, 2);
+        return equationResult <= 0.8;
+    }
+
     private Color randomColor() {
         Random rand = new Random();
         float r = rand.nextFloat();
@@ -336,7 +456,12 @@ public class Assignment1 extends JPanel {
         q.add(new int[] { x, y });
         int borderRGB = border.getRGB();
         int replaceRGB = replace.getRGB();
-
+        if (border.getAlpha() != 255) {
+            // borderRGB-=1;
+        }
+        // }
+        // System.out.println("1 "+m.getRGB(325, 301));
+        // System.out.println("2 "+(borderRGB));
         int[] currentPos;
         while (!q.isEmpty()) {
             currentPos = q.poll();
@@ -365,6 +490,62 @@ public class Assignment1 extends JPanel {
         }
 
         return m;
+    }
+
+    public BufferedImage floodFillAlpha(BufferedImage m, int x, int y, Color border, Color replace) {
+        Queue<int[]> q = new LinkedList<>();
+
+        q.add(new int[] { x, y });
+        int borderRGB = border.getRGB() & 0xFFFFFF; // Mask out alpha channel
+        int replaceRGB = replace.getRGB() & 0xFFFFFF; // Mask out alpha channel
+
+        int[] currentPos;
+        while (!q.isEmpty()) {
+            currentPos = q.poll();
+            int x1 = currentPos[0];
+            int y1 = currentPos[1];
+
+            if (isVarid(x1, y1)) {
+                int rgb = m.getRGB(x1, y1) & 0xFFFFFF; // Mask out alpha channel
+                if (rgb != borderRGB && rgb != replaceRGB) {
+                    m.setRGB(x1, y1, replace.getRGB());
+                    // south
+                    if (isVarid(x1, y1 + 1)) {
+                        int southRGB = m.getRGB(x1, y1 + 1) & 0xFFFFFF;
+                        if (southRGB != borderRGB && southRGB != replaceRGB) {
+                            q.add(new int[] { x1, y1 + 1 });
+                        }
+                    }
+                    // north
+                    if (isVarid(x1, y1 - 1)) {
+                        int northRGB = m.getRGB(x1, y1 - 1) & 0xFFFFFF;
+                        if (northRGB != borderRGB && northRGB != replaceRGB) {
+                            q.add(new int[] { x1, y1 - 1 });
+                        }
+                    }
+                    // east
+                    if (isVarid(x1 + 1, y1)) {
+                        int eastRGB = m.getRGB(x1 + 1, y1) & 0xFFFFFF;
+                        if (eastRGB != borderRGB && eastRGB != replaceRGB) {
+                            q.add(new int[] { x1 + 1, y1 });
+                        }
+                    }
+                    // west
+                    if (isVarid(x1 - 1, y1)) {
+                        int westRGB = m.getRGB(x1 - 1, y1) & 0xFFFFFF;
+                        if (westRGB != borderRGB && westRGB != replaceRGB) {
+                            q.add(new int[] { x1 - 1, y1 });
+                        }
+                    }
+                }
+            }
+        }
+
+        return m;
+    }
+
+    private int getRGBWithoutAlpha(Color color) {
+        return (color.getRed() << 16) | (color.getGreen() << 8) | color.getBlue();
     }
 
     // --------------------------------------- work
@@ -555,6 +736,7 @@ public class Assignment1 extends JPanel {
     private void drawOvalGradient(Graphics g, int x, int y, int width, int height) {
         int centerX = x + (width / 2);
         int centerY = y + (height / 2);
+        // System.out.println(isVarid(centerX, centerY ));
         width *= 1.5;
         height *= 1.5;
         int count = 100;
@@ -573,7 +755,7 @@ public class Assignment1 extends JPanel {
             Color colorCurrent = interpolateColor(colorStart, colorEnd, ratioColor);
             int xR = interpolateNumber(1, width, ratio);
             int yR = interpolateNumber(1, height, ratio);
-            drawnOval(g, centerX, centerY, xR, yR, colorCurrent);
+            drawnOvalMine(g, centerX, centerY, xR, yR, colorCurrent);
         }
     }
 
