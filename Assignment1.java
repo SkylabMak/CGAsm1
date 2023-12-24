@@ -84,54 +84,19 @@ public class Assignment1 extends JPanel {
         // g2.setColor(color);
         int xR = width / 2;
         int yR = height / 2;
-        int xV = 0;
-        int yV = 0;
-        // Graphics2D g2d = (Graphics2D) g;
-        // g2d.setColor(color);
-
-        // int xStart = x - xR;
-        // int yStart = y - yR;
-        // int xEnd = x + xR;
-        // int yEnd = y + yR;
-
-        // for (int i = xStart; i <= xEnd; i++) {
-        // for (int j = yStart; j <= yEnd; j++) {
-        // if (isInsideEllipse(i, j, x, y, xR, yR)) {
-        // g2d.fillRect(i, j, 1, 1);
-        // }
-        // }
-        // }
-        // for (int i = 0; i < width; i++) {
-        // for (int j = 0; j < height; j++) {
-        // int currentX = x - xR + i;
-        // int currentY = y - yR + j;
-        // // Check if the point is inside the ellipse equation
-        // if (isInsideEllipse(currentX, currentY, x, y, xR, yR)) {
-        // plot(g, currentX, currentY);
-        // }
-        // }
-        // }
-        for (double angle = 0; angle <= 2 * Math.PI; angle += 0.01) {
-            int currentX = (int) Math.round(x + xR * Math.cos(angle));
-            int currentY = (int) Math.round(y + yR * Math.sin(angle));
-
-            if (!isVarid(currentX, currentY)) {
-                continue;
-            }
-            xV = currentX;
-            yV = currentY;
-            setRGBMine(buffer, currentX, currentY, 2, color);
-        }
+        
+        drawEllipse(buffer, x, y, yR, xR, 2, color);
         boolean found = false;
         if (!isVarid(x, y)) {
             int xStart = x - xR;
             int yStart = y - yR;
             int xEnd = x + xR;
             int yEnd = y + yR;
-            // g2.setColor(Color.green);
+            g2.setColor(Color.green);
             for (int i = xStart; i <= xEnd; i++) {
                 for (int j = yStart; j <= yEnd; j++) {
-                    if (isVarid(i, j) && isInsideEllipse(i, j, x, y, xR, yR)) {
+                    if (isVarid(i, j) && isInsideEllipse(i, j, x, y, xR, yR,2)) {
+                        // g2.fillRect(i, j, 2, 2);
                         // System.out.println("found");
                         found = true;
                         x = i;
@@ -163,14 +128,14 @@ public class Assignment1 extends JPanel {
         }
     }
 
-    private boolean isInsideEllipse(int x, int y, int centerX, int centerY, int xRadius, int yRadius) {
-        // Ellipse equation: ((x - centerX) / xRadius)^2 + ((y - centerY) / yRadius)^2
-        // <= 1
-        double normalizedX = (x - centerX) / (double) xRadius;
-        double normalizedY = (y - centerY) / (double) yRadius;
+    private boolean isInsideEllipse(int x, int y, int centerX, int centerY, int xRadius, int yRadius,int thickness) {
+        // Ellipse equation: ((x - centerX) / xRadius)^2 + ((y - centerY) / yRadius)^2 <= 1
+        double normalizedX = (x - centerX) / (double) (xRadius-thickness);
+        double normalizedY = (y - centerY) / (double) (yRadius-thickness);
         double equationResult = Math.pow(normalizedX, 2) + Math.pow(normalizedY, 2);
-        return equationResult <= 0.8;
+        return equationResult < 1;
     }
+    
 
     private Color randomColor() {
         Random rand = new Random();
@@ -546,6 +511,60 @@ public class Assignment1 extends JPanel {
 
     private int getRGBWithoutAlpha(Color color) {
         return (color.getRed() << 16) | (color.getGreen() << 8) | color.getBlue();
+    }
+
+    private void drawEllipse(BufferedImage buffer, int centerX, int centerY, int a, int b,int thickness,Color color) {
+        int a2 = a * a;
+        int b2 = b * b;
+        int twoA2 = 2 * a2;
+        int twoB2 = 2 * b2;
+
+        // REGION 1
+        int x = 0;
+        int y = b;
+        int D = Math.round(b2 - a2 * b + a2 / 4);
+        int Dx = 0;
+        int Dy = twoA2 * y;
+
+        while (Dx <= Dy) {
+            plotQuadrants(buffer, centerX, centerY, x, y,thickness,color);
+            x = x + 1;
+            Dx = Dx + twoB2;
+            D = D + Dx + b2;
+
+            if (D >= 0) {
+                y = y - 1;
+                Dy = Dy - twoA2;
+                D = D - Dy;
+            }
+        }
+
+        // REGION 2
+        x = a;
+        y = 0;
+        D = Math.round(a2 - b2 * a + b2 / 4);
+        Dx = twoB2 * x;
+        Dy = 0;
+
+        while (Dx >= Dy) {
+            plotQuadrants(buffer, centerX, centerY, x, y,thickness,color);
+            y = y + 1;
+            Dy = Dy + twoA2;
+            D = D + Dy + a2;
+
+            if (D >= 0) {
+                x = x - 1;
+                Dx = Dx - twoB2;
+                D = D - Dx;
+            }
+        }
+    }
+
+    private void plotQuadrants(BufferedImage  b, int centerX, int centerY, int x, int y,int thickness,Color color) {
+        setRGBMine(b, centerX + x, centerY + y,thickness,color);
+        setRGBMine(b, centerX - x, centerY + y,thickness,color);
+        setRGBMine(b, centerX + x, centerY - y,thickness,color);
+        setRGBMine(b, centerX - x, centerY - y,thickness,color);
     }
 
     // --------------------------------------- work
