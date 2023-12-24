@@ -585,7 +585,7 @@ public class Assignment1 extends JPanel {
         // work space
         // sky
         drawnSky(g, 0, 0);
-        drawOvalGradient(g, 250, 50, 200, 200);
+        drawOvalGradient(g, 250, -50, 250, 300);
         drawOvalGradient(g, -50, -150, 200, 200);// LT
         drawOvalGradient(g, -10, 100, 200, 200);// LB
         drawOvalGradient(g, 500, 50, 250, 250);// RB
