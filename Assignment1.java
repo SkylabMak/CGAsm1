@@ -327,6 +327,23 @@ public class Assignment1 extends JPanel {
 
         }
 
+        private void drawBezierCurveMineBuffer(BufferedImage bufferedImage, int x1, int y1, int ctrlX1, int ctrlY1,
+                        int ctrlX2, int ctrlY2, int x2, int y2, int thickness, Color color) {
+                                 int resolution = 500;
+
+                for (int t = 0; t <= resolution; t++) {
+                        float u = t / (float) resolution;
+                        float uComp = 1 - u;
+
+                        int x = (int) (uComp * uComp * uComp * x1 + 3 * uComp * uComp * u * ctrlX1
+                                        + 3 * uComp * u * u * ctrlX2 + u * u * u * x2);
+                        int y = (int) (uComp * uComp * uComp * y1 + 3 * uComp * uComp * u * ctrlY1
+                                        + 3 * uComp * u * u * ctrlY2 + u * u * u * y2);
+                        setRGBMine(bufferedImage,x,y,thickness,color);
+                        
+
+                }
+                        }
         private void drawBezierCurveMine(Graphics g, int x1, int y1, int ctrlX1, int ctrlY1,
                         int ctrlX2, int ctrlY2, int x2, int y2, int thickness, Color color) {
 
@@ -521,50 +538,19 @@ public class Assignment1 extends JPanel {
 
         private void drawEllipse(BufferedImage buffer, int centerX, int centerY, int a, int b, int thickness,
                         Color color) {
-                int a2 = a * a;
-                int b2 = b * b;
-                int twoA2 = 2 * a2;
-                int twoB2 = 2 * b2;
-
-                // REGION 1
-                int x = 0;
-                int y = b;
-                int D = Math.round(b2 - a2 * b + a2 / 4);
-                int Dx = 0;
-                int Dy = twoA2 * y;
-
-                while (Dx <= Dy) {
-                        plotQuadrants(buffer, centerX, centerY, x, y, thickness, color);
-                        x = x + 1;
-                        Dx = Dx + twoB2;
-                        D = D + Dx + b2;
-
-                        if (D >= 0) {
-                                y = y - 1;
-                                Dy = Dy - twoA2;
-                                D = D - Dy;
-                        }
-                }
-
-                // REGION 2
-                x = a;
-                y = 0;
-                D = Math.round(a2 - b2 * a + b2 / 4);
-                Dx = twoB2 * x;
-                Dy = 0;
-
-                while (Dx >= Dy) {
-                        plotQuadrants(buffer, centerX, centerY, x, y, thickness, color);
-                        y = y + 1;
-                        Dy = Dy + twoA2;
-                        D = D + Dy + a2;
-
-                        if (D >= 0) {
-                                x = x - 1;
-                                Dx = Dx - twoB2;
-                                D = D - Dx;
-                        }
-                }
+                                int aHalf = a ;
+                                int bHalf = b ;
+                            
+                                int ctrlPointX = (int) (a * 0.55191502449); // Approximately 4*(sqrt(2)-1)/3
+                                int ctrlPointY = (int) (b * 0.55191502449); // Approximately 4*(sqrt(2)-1)/3
+                            
+                                // First quadrant
+                                drawBezierCurveMineBuffer(buffer, centerX, centerY - bHalf, centerX + ctrlPointX, centerY - bHalf, centerX + aHalf, centerY - ctrlPointY, centerX + aHalf, centerY, thickness, color);
+                                drawBezierCurveMineBuffer(buffer, centerX + aHalf, centerY, centerX + aHalf, centerY + ctrlPointY, centerX + ctrlPointX, centerY + bHalf, centerX, centerY + bHalf, thickness, color);
+                            
+                                // Second quadrant
+                                drawBezierCurveMineBuffer(buffer, centerX, centerY + bHalf, centerX - ctrlPointX, centerY + bHalf, centerX - aHalf, centerY + ctrlPointY, centerX - aHalf, centerY, thickness, color);
+                                drawBezierCurveMineBuffer(buffer, centerX - aHalf, centerY, centerX - aHalf, centerY - ctrlPointY, centerX - ctrlPointX, centerY - bHalf, centerX, centerY - bHalf, thickness, color);
         }
 
         private void plotQuadrants(BufferedImage b, int centerX, int centerY, int x, int y, int thickness,
@@ -593,7 +579,7 @@ public class Assignment1 extends JPanel {
                 // work space
                 // sky
                 drawnSky(g, 0, 0);
-                drawOvalGradient(g, 250, -50, 250, 300);
+                drawOvalGradient(g, 175, 0, 250, 300);//dargon
                 drawOvalGradient(g, -50, -150, 200, 200);// LT
                 drawOvalGradient(g, -10, 100, 200, 200);// LB
                 drawOvalGradient(g, 500, 50, 250, 250);// RB
@@ -611,7 +597,7 @@ public class Assignment1 extends JPanel {
                 drawHuman(g, 410, 300, 100);
                 drawTree(g, -120, 120, 3);
                 drawNoteBook(g, 10, 500);
-                drawDragon(g, 150, 50, 1);
+                drawDragon(g, 175, 50, 1);
         }
         // --------------------------------------- work
         // space---------------------------------------
