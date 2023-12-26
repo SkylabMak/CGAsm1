@@ -609,9 +609,9 @@ public class Assignment1 extends JPanel {
                 drawnGround(g, 0, 0);
                 drawHuman(g, 300, 300, 100);
                 drawHuman(g, 410, 300, 100);
+                drawTree(g, -120, 120, 3);
                 drawNoteBook(g, 10, 500);
                 drawDragon(g, 150, 50, 1);
-                drawTree(g, 80, 275, 100);
         }
         // --------------------------------------- work
         // space---------------------------------------
@@ -1928,83 +1928,102 @@ public class Assignment1 extends JPanel {
                 // head
 
                 // g2.f
-                int endL[] = { x + 24, y + 154 };
-                int endR[] = { x + 53, y + 85 };
-                drawBezierCurveMine(g2, endL[0], endL[1], x + 44, y + 124, x + 47, y + 118, endR[0], endR[1], thickness,
+                int endL[] = { x + 24 * size, y + 154 * size };
+                int endR[] = { x + 53 * size, y + 85 * size };
+                drawBezierCurveMine(g2, endL[0], endL[1], x + 44 * size, y + 124 * size, x + 47 * size, y + 118 * size,
+                                endR[0], endR[1], thickness,
                                 colorLine);
                 endL = endR;
-                endR = new int[] { x + 16, y + 79 };
-                drawBezierCurveMine(g2, endL[0], endL[1], x + 36, y + 79, x + 36, y + 79, endR[0], endR[1], thickness,
+                endR = new int[] { x + 16 * size, y + 79 * size };
+                drawBezierCurveMine(g2, endL[0], endL[1], x + 36 * size, y + 79 * size, x + 36 * size, y + 79 * size,
+                                endR[0], endR[1], thickness,
                                 colorLine);
                 endL = endR;
-                endR = new int[] { x + 45, y + 78 };
-                drawBezierCurveMine(g2, endL[0], endL[1], x + 41, y + 78, x + 41, y + 76, endR[0], endR[1], thickness,
+                endR = new int[] { x + 45 * size, y + 78 * size };
+                drawBezierCurveMine(g2, endL[0], endL[1], x + 41 * size, y + 78 * size, x + 41 * size, y + 76 * size,
+                                endR[0], endR[1], thickness,
                                 colorLine);
                 endL = endR;
-                endR = new int[] { x + 0, y + 58 };
-                drawBezierCurveMine(g2, endL[0], endL[1], x + 34, y + 68, x + 24, y + 68, endR[0], endR[1], thickness,
+                endR = new int[] { x + 0 * size, y + 58 * size };
+                drawBezierCurveMine(g2, endL[0], endL[1], x + 34 * size, y + 68 * size, x + 24 * size, y + 68 * size,
+                                endR[0], endR[1], thickness,
                                 colorLine);
                 endL = endR;
-                endR = new int[] { x + 54, y + 75 };
-                drawBezierCurveMine(g2, endL[0], endL[1], x + 37, y + 64, x + 43, y + 69, endR[0], endR[1], thickness,
+                endR = new int[] { x + 54 * size, y + 75 * size };
+                drawBezierCurveMine(g2, endL[0], endL[1], x + 37 * size, y + 64 * size, x + 43 * size, y + 69 * size,
+                                endR[0], endR[1], thickness,
                                 colorLine);
                 endL = endR;
-                endR = new int[] { x + 26, y + 55 };
-                drawBezierCurveMine(g2, endL[0], endL[1], x + 50, y + 62, x + 46, y + 57, endR[0], endR[1], thickness,
+                endR = new int[] { x + 26 * size, y + 55 * size };
+                drawBezierCurveMine(g2, endL[0], endL[1], x + 50 * size, y + 62 * size, x + 46 * size, y + 57 * size,
+                                endR[0], endR[1], thickness,
                                 colorLine);
                 endL = endR;
-                endR = new int[] { x + 38, y + 55 };
-                drawBezierCurveMine(g2, endL[0], endL[1], x + 32, y + 54, x + 32, y + 54, endR[0], endR[1], thickness,
+                endR = new int[] { x + 38 * size, y + 55 * size };
+                drawBezierCurveMine(g2, endL[0], endL[1], x + 32 * size, y + 54 * size, x + 32 * size, y + 54 * size,
+                                endR[0], endR[1], thickness,
                                 colorLine);
                 endL = endR;
-                endR = new int[] { x + 21, y + 47 };
-                drawBezierCurveMine(g2, endL[0], endL[1], x + 30, y + 52, x + 38, y + 50, endR[0], endR[1], thickness,
+                endR = new int[] { x + 21 * size, y + 47 * size };
+                drawBezierCurveMine(g2, endL[0], endL[1], x + 30 * size, y + 52 * size, x + 38 * size, y + 50 * size,
+                                endR[0], endR[1], thickness,
                                 colorLine);
                 endL = endR;
-                endR = new int[] { x + 55, y + 62 };
-                drawBezierCurveMine(g2, endL[0], endL[1], x + 41, y + 48, x + 49, y + 63, endR[0], endR[1], thickness,
+                endR = new int[] { x + 55 * size, y + 62 * size };
+                drawBezierCurveMine(g2, endL[0], endL[1], x + 41 * size, y + 48 * size, x + 49 * size, y + 63 * size,
+                                endR[0], endR[1], thickness,
                                 colorLine);
                 endL = endR;
-                endR = new int[] { x + 26, y + 20 };
-                drawBezierCurveMine(g2, endL[0], endL[1], x + 55, y + 41, x + 45, y + 25, endR[0], endR[1], thickness,
+                endR = new int[] { x + 26 * size, y + 20 * size };
+                drawBezierCurveMine(g2, endL[0], endL[1], x + 55 * size, y + 41 * size, x + 45 * size, y + 25 * size,
+                                endR[0], endR[1], thickness,
                                 colorLine);
                 endL = endR;
-                endR = new int[] { x + 58, y + 43 };
-                drawBezierCurveMine(g2, endL[0], endL[1], x + 43, y + 22, x + 49, y + 31, endR[0], endR[1], thickness,
+                endR = new int[] { x + 58 * size, y + 43 * size };
+                drawBezierCurveMine(g2, endL[0], endL[1], x + 43 * size, y + 22 * size, x + 49 * size, y + 31 * size,
+                                endR[0], endR[1], thickness,
                                 colorLine);
                 endL = endR;
-                endR = new int[] { x + 73, y + 0 };
-                drawBezierCurveMine(g2, endL[0], endL[1], x + 59, y + 28, x + 65, y + 10, endR[0], endR[1], thickness,
+                endR = new int[] { x + 73 * size, y + 0 * size };
+                drawBezierCurveMine(g2, endL[0], endL[1], x + 59 * size, y + 28 * size, x + 65 * size, y + 10 * size,
+                                endR[0], endR[1], thickness,
                                 colorLine);
                 endL = endR;
-                endR = new int[] { x + 67, y + 61 };
-                drawBezierCurveMine(g2, endL[0], endL[1], x + 67, y + 31, x + 67, y + 31, endR[0], endR[1], thickness,
+                endR = new int[] { x + 67 * size, y + 61 * size };
+                drawBezierCurveMine(g2, endL[0], endL[1], x + 67 * size, y + 31 * size, x + 67 * size, y + 31 * size,
+                                endR[0], endR[1], thickness,
                                 colorLine);
                 endL = endR;
-                endR = new int[] { x + 98, y + 37 };
-                drawBezierCurveMine(g2, endL[0], endL[1], x + 77, y + 52, x + 90, y + 54, endR[0], endR[1], thickness,
+                endR = new int[] { x + 98 * size, y + 37 * size };
+                drawBezierCurveMine(g2, endL[0], endL[1], x + 77 * size, y + 52 * size, x + 90 * size, y + 54 * size,
+                                endR[0], endR[1], thickness,
                                 colorLine);
                 endL = endR;
-                endR = new int[] { x + 69, y + 70 };
-                drawBezierCurveMine(g2, endL[0], endL[1], x + 94, y + 52, x + 86, y + 60, endR[0], endR[1], thickness,
+                endR = new int[] { x + 69 * size, y + 70 * size };
+                drawBezierCurveMine(g2, endL[0], endL[1], x + 94 * size, y + 52 * size, x + 86 * size, y + 60 * size,
+                                endR[0], endR[1], thickness,
                                 colorLine);
                 endL = endR;
-                endR = new int[] { x + 133, y + 58 };
-                drawBezierCurveMine(g2, endL[0], endL[1], x + 86, y + 61, x + 107, y + 58, endR[0], endR[1], thickness,
+                endR = new int[] { x + 133 * size, y + 58 * size };
+                drawBezierCurveMine(g2, endL[0], endL[1], x + 86 * size, y + 61 * size, x + 107 * size, y + 58 * size,
+                                endR[0], endR[1], thickness,
                                 colorLine);
                 endL = endR;
-                endR = new int[] { x + 69, y + 87 };
-                drawBezierCurveMine(g2, endL[0], endL[1], x + 102, y + 63, x + 75, y + 79, endR[0], endR[1], thickness,
+                endR = new int[] { x + 69 * size, y + 87 * size };
+                drawBezierCurveMine(g2, endL[0], endL[1], x + 102 * size, y + 63 * size, x + 75 * size, y + 79 * size,
+                                endR[0], endR[1], thickness,
                                 colorLine);
                 endL = endR;
-                endR = new int[] { x + 61, y + 154 };
-                drawBezierCurveMine(g2, endL[0], endL[1], x + 66, y + 100, x + 55, y + 149, endR[0], endR[1], thickness,
+                endR = new int[] { x + 61 * size, y + 154 * size };
+                drawBezierCurveMine(g2, endL[0], endL[1], x + 66 * size, y + 100 * size, x + 55 * size, y + 149 * size,
+                                endR[0], endR[1], thickness,
                                 colorLine);
                 endL = endR;
-                endR = new int[] { x + 24, y + 154 };
-                drawBezierCurveMine(g2, endL[0], endL[1], x + 55, y + 148, x + 36, y + 148, endR[0], endR[1], thickness,
+                endR = new int[] { x + 24 * size, y + 154 * size };
+                drawBezierCurveMine(g2, endL[0], endL[1], x + 55 * size, y + 148 * size, x + 36 * size, y + 148 * size,
+                                endR[0], endR[1], thickness,
                                 colorLine);
-                buffer = floodFill(buffer, x + 40, y + 140, Color.BLACK);
+                buffer = floodFill(buffer, x + 40 * size, y + 140 * size, Color.BLACK);
                 g.drawImage(buffer, 0, 0, null);
         }
 }
