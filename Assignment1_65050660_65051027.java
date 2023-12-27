@@ -456,12 +456,10 @@ public class Assignment1_65050660_65051027 extends JPanel {
     // space---------------------------------------
     private void myPaint(Graphics g) {
         // background
-        drawRectangle(g, 0, 0, 600, 600, Color.WHITE);
-
-        // work space
+        drawRectangle(g, 0, 0, 600, 600, Color.white);
         // sky
         drawnSky(g, 0, 0);
-        drawOvalGradient(g, 250, -50, 250, 300);
+        drawOvalGradient(g, 175, 0, 250, 300);//dargon
         drawOvalGradient(g, -50, -150, 200, 200);// LT
         drawOvalGradient(g, -10, 100, 200, 200);// LB
         drawOvalGradient(g, 500, 50, 250, 250);// RB
@@ -477,7 +475,9 @@ public class Assignment1_65050660_65051027 extends JPanel {
         drawnGround(g, 0, 0);
         drawHuman(g, 300, 300);
         drawHuman(g, 410, 300);
+        drawTree(g, -120, 120, 3);
         drawNoteBook(g, 10, 500);
+        drawDragon(g, 175, 50, 1);
 
     }
     // --------------------------------------- work
@@ -757,5 +757,1096 @@ public class Assignment1_65050660_65051027 extends JPanel {
         buffer = floodFill(buffer, x + 50, y + 100, Color.BLACK);
         g.drawImage(buffer, 0, 0, null);
     }
+
+    private void drawDragon(Graphics g, int x, int y, double size) {
+        int[] xPol;
+        int[] yPol;
+        Polygon pol;
+        Color col1 = new Color(240, 96, 8);
+        Color col2 = new Color(190, 64, 0);
+        Color col3 = new Color(241, 196, 14);
+        Color col4 = new Color(239, 146, 7);
+        Color col5 = new Color(237, 10, 8);
+        Color col6 = new Color(190, 12, 14);
+        int a, b, c, d, e, f;
+        a = 0;
+        b = 22;
+        c = 20;
+        d = 36;
+        e = 36;
+        f = 32;
+        xPol = new int[] { (int) Math.round(a * size + x), (int) Math.round(c * size + x),
+                (int) Math.round(e * size + x) };
+        yPol = new int[] { (int) Math.round(b * size + y), (int) Math.round(d * size + y),
+                (int) Math.round(f * size + y) };
+        pol = new Polygon(xPol, yPol, 3);
+        g.setColor(col1);
+        g.fillPolygon(pol);
+        a = 26;
+        b = 55;
+        xPol = new int[] { (int) Math.round(a * size + x), (int) Math.round(c * size + x),
+                (int) Math.round(e * size + x) };
+        yPol = new int[] { (int) Math.round(b * size + y), (int) Math.round(d * size + y),
+                (int) Math.round(f * size + y) };
+        pol = new Polygon(xPol, yPol, 3);
+        g.setColor(col2);
+        g.fillPolygon(pol);
+        c = 61;
+        d = 54;
+        xPol = new int[] { (int) Math.round(a * size + x), (int) Math.round(c * size + x),
+                (int) Math.round(e * size + x) };
+        yPol = new int[] { (int) Math.round(b * size + y), (int) Math.round(d * size + y),
+                (int) Math.round(f * size + y) };
+        pol = new Polygon(xPol, yPol, 3);
+        g.setColor(col3);
+        g.fillPolygon(pol);
+        e = 21;
+        f = 71;
+        xPol = new int[] { (int) Math.round(a * size + x), (int) Math.round(c * size + x),
+                (int) Math.round(e * size + x) };
+        yPol = new int[] { (int) Math.round(b * size + y), (int) Math.round(d * size + y),
+                (int) Math.round(f * size + y) };
+        pol = new Polygon(xPol, yPol, 3);
+        g.setColor(col1);
+        g.fillPolygon(pol);
+        a = 44;
+        b = 79;
+        xPol = new int[] { (int) Math.round(a * size + x), (int) Math.round(c * size + x),
+                (int) Math.round(e * size + x) };
+        yPol = new int[] { (int) Math.round(b * size + y), (int) Math.round(d * size + y),
+                (int) Math.round(f * size + y) };
+        pol = new Polygon(xPol, yPol, 3);
+        g.setColor(col2);
+        g.fillPolygon(pol);
+        e = 54;
+        f = 102;
+        xPol = new int[] { (int) Math.round(a * size + x), (int) Math.round(c * size + x),
+                (int) Math.round(e * size + x) };
+        yPol = new int[] { (int) Math.round(b * size + y), (int) Math.round(d * size + y),
+                (int) Math.round(f * size + y) };
+        pol = new Polygon(xPol, yPol, 3);
+        g.setColor(col4);
+        g.fillPolygon(pol);
+        a = 77;
+        b = 101;
+        xPol = new int[] { (int) Math.round(a * size + x), (int) Math.round(c * size + x),
+                (int) Math.round(e * size + x) };
+        yPol = new int[] { (int) Math.round(b * size + y), (int) Math.round(d * size + y),
+                (int) Math.round(f * size + y) };
+        pol = new Polygon(xPol, yPol, 3);
+        g.setColor(col2);
+        g.fillPolygon(pol);
+        e = 87;
+        f = 81;
+        xPol = new int[] { (int) Math.round(a * size + x), (int) Math.round(c * size + x),
+                (int) Math.round(e * size + x) };
+        yPol = new int[] { (int) Math.round(b * size + y), (int) Math.round(d * size + y),
+                (int) Math.round(f * size + y) };
+        pol = new Polygon(xPol, yPol, 3);
+        g.setColor(col1);
+        g.fillPolygon(pol);
+        c = 92;
+        d = 109;
+        xPol = new int[] { (int) Math.round(a * size + x), (int) Math.round(c * size + x),
+                (int) Math.round(e * size + x) };
+        yPol = new int[] { (int) Math.round(b * size + y), (int) Math.round(d * size + y),
+                (int) Math.round(f * size + y) };
+        pol = new Polygon(xPol, yPol, 3);
+        g.setColor(col4);
+        g.fillPolygon(pol);
+        a = 109;
+        b = 109;
+        xPol = new int[] { (int) Math.round(a * size + x), (int) Math.round(c * size + x),
+                (int) Math.round(e * size + x) };
+        yPol = new int[] { (int) Math.round(b * size + y), (int) Math.round(d * size + y),
+                (int) Math.round(f * size + y) };
+        pol = new Polygon(xPol, yPol, 3);
+        g.setColor(col4);
+        g.fillPolygon(pol);
+        c = 126;
+        d = 95;
+        xPol = new int[] { (int) Math.round(a * size + x), (int) Math.round(c * size + x),
+                (int) Math.round(e * size + x) };
+        yPol = new int[] { (int) Math.round(b * size + y), (int) Math.round(d * size + y),
+                (int) Math.round(f * size + y) };
+        pol = new Polygon(xPol, yPol, 3);
+        g.setColor(col3);
+        g.fillPolygon(pol);
+        e = 127;
+        f = 112;
+        xPol = new int[] { (int) Math.round(a * size + x), (int) Math.round(c * size + x),
+                (int) Math.round(e * size + x) };
+        yPol = new int[] { (int) Math.round(b * size + y), (int) Math.round(d * size + y),
+                (int) Math.round(f * size + y) };
+        pol = new Polygon(xPol, yPol, 3);
+        g.setColor(col1);
+        g.fillPolygon(pol);
+
+        // splits
+
+        // tail
+
+        a = 203;
+        b = 195;
+        c = 203;
+        d = 187;
+        e = 208;
+        f = 188;
+        xPol = new int[] { (int) Math.round(a * size + x), (int) Math.round(c * size + x),
+                (int) Math.round(e * size + x) };
+        yPol = new int[] { (int) Math.round(b * size + y), (int) Math.round(d * size + y),
+                (int) Math.round(f * size + y) };
+        pol = new Polygon(xPol, yPol, 3);
+        g.setColor(col5);
+        g.fillPolygon(pol);
+        a = 204;
+        b = 183;
+        xPol = new int[] { (int) Math.round(a * size + x), (int) Math.round(c * size + x),
+                (int) Math.round(e * size + x) };
+        yPol = new int[] { (int) Math.round(b * size + y), (int) Math.round(d * size + y),
+                (int) Math.round(f * size + y) };
+        pol = new Polygon(xPol, yPol, 3);
+        g.setColor(col6);
+        g.fillPolygon(pol);
+        c = 206;
+        d = 183;
+        xPol = new int[] { (int) Math.round(a * size + x), (int) Math.round(c * size + x),
+                (int) Math.round(e * size + x) };
+        yPol = new int[] { (int) Math.round(b * size + y), (int) Math.round(d * size + y),
+                (int) Math.round(f * size + y) };
+        pol = new Polygon(xPol, yPol, 3);
+        g.setColor(col6);
+        g.fillPolygon(pol);
+
+        // mini splits left tail tip
+
+        c = 203;
+        d = 187;
+        e = 198;
+        f = 182;
+        xPol = new int[] { (int) Math.round(a * size + x), (int) Math.round(c * size + x),
+                (int) Math.round(e * size + x) };
+        yPol = new int[] { (int) Math.round(b * size + y), (int) Math.round(d * size + y),
+                (int) Math.round(f * size + y) };
+        pol = new Polygon(xPol, yPol, 3);
+        g.setColor(col5);
+        g.fillPolygon(pol);
+
+        // mini splits right tail tip
+        a = 211;
+        b = 179;
+        c = 206;
+        d = 183;
+        e = 208;
+        f = 188;
+        xPol = new int[] { (int) Math.round(a * size + x), (int) Math.round(c * size + x),
+                (int) Math.round(e * size + x) };
+        yPol = new int[] { (int) Math.round(b * size + y), (int) Math.round(d * size + y),
+                (int) Math.round(f * size + y) };
+        pol = new Polygon(xPol, yPol, 3);
+        g.setColor(col5);
+        g.fillPolygon(pol);
+
+        // tail continue
+
+        a = 204;
+        b = 183;
+        c = 206;
+        d = 183;
+        e = 202;
+        f = 177;
+        xPol = new int[] { (int) Math.round(a * size + x), (int) Math.round(c * size + x),
+                (int) Math.round(e * size + x) };
+        yPol = new int[] { (int) Math.round(b * size + y), (int) Math.round(d * size + y),
+                (int) Math.round(f * size + y) };
+        pol = new Polygon(xPol, yPol, 3);
+        g.setColor(col2);
+        g.fillPolygon(pol);
+        a = 202;
+        b = 174;
+        xPol = new int[] { (int) Math.round(a * size + x), (int) Math.round(c * size + x),
+                (int) Math.round(e * size + x) };
+        yPol = new int[] { (int) Math.round(b * size + y), (int) Math.round(d * size + y),
+                (int) Math.round(f * size + y) };
+        pol = new Polygon(xPol, yPol, 3);
+        g.setColor(col4);
+        g.fillPolygon(pol);
+        c = 198;
+        d = 172;
+        xPol = new int[] { (int) Math.round(a * size + x), (int) Math.round(c * size + x),
+                (int) Math.round(e * size + x) };
+        yPol = new int[] { (int) Math.round(b * size + y), (int) Math.round(d * size + y),
+                (int) Math.round(f * size + y) };
+        pol = new Polygon(xPol, yPol, 3);
+        g.setColor(col2);
+        g.fillPolygon(pol);
+        e = 195;
+        f = 169;
+        xPol = new int[] { (int) Math.round(a * size + x), (int) Math.round(c * size + x),
+                (int) Math.round(e * size + x) };
+        yPol = new int[] { (int) Math.round(b * size + y), (int) Math.round(d * size + y),
+                (int) Math.round(f * size + y) };
+        pol = new Polygon(xPol, yPol, 3);
+        g.setColor(col3);
+        g.fillPolygon(pol);
+        a = 191;
+        b = 169;
+        xPol = new int[] { (int) Math.round(a * size + x), (int) Math.round(c * size + x),
+                (int) Math.round(e * size + x) };
+        yPol = new int[] { (int) Math.round(b * size + y), (int) Math.round(d * size + y),
+                (int) Math.round(f * size + y) };
+        pol = new Polygon(xPol, yPol, 3);
+        g.setColor(col1);
+        g.fillPolygon(pol);
+        c = 187;
+        d = 168;
+        xPol = new int[] { (int) Math.round(a * size + x), (int) Math.round(c * size + x),
+                (int) Math.round(e * size + x) };
+        yPol = new int[] { (int) Math.round(b * size + y), (int) Math.round(d * size + y),
+                (int) Math.round(f * size + y) };
+        pol = new Polygon(xPol, yPol, 3);
+        g.setColor(col4);
+        g.fillPolygon(pol);
+        e = 182;
+        f = 170;
+        xPol = new int[] { (int) Math.round(a * size + x), (int) Math.round(c * size + x),
+                (int) Math.round(e * size + x) };
+        yPol = new int[] { (int) Math.round(b * size + y), (int) Math.round(d * size + y),
+                (int) Math.round(f * size + y) };
+        pol = new Polygon(xPol, yPol, 3);
+        g.setColor(col2);
+        g.fillPolygon(pol);
+        a = 173;
+        b = 171;
+        xPol = new int[] { (int) Math.round(a * size + x), (int) Math.round(c * size + x),
+                (int) Math.round(e * size + x) };
+        yPol = new int[] { (int) Math.round(b * size + y), (int) Math.round(d * size + y),
+                (int) Math.round(f * size + y) };
+        pol = new Polygon(xPol, yPol, 3);
+        g.setColor(col1);
+        g.fillPolygon(pol);
+        c = 166;
+        d = 175;
+        xPol = new int[] { (int) Math.round(a * size + x), (int) Math.round(c * size + x),
+                (int) Math.round(e * size + x) };
+        yPol = new int[] { (int) Math.round(b * size + y), (int) Math.round(d * size + y),
+                (int) Math.round(f * size + y) };
+        pol = new Polygon(xPol, yPol, 3);
+        g.setColor(col3);
+        g.fillPolygon(pol);
+        e = 159;
+        f = 174;
+        xPol = new int[] { (int) Math.round(a * size + x), (int) Math.round(c * size + x),
+                (int) Math.round(e * size + x) };
+        yPol = new int[] { (int) Math.round(b * size + y), (int) Math.round(d * size + y),
+                (int) Math.round(f * size + y) };
+        pol = new Polygon(xPol, yPol, 3);
+        g.setColor(col4);
+        g.fillPolygon(pol);
+        a = 149;
+        b = 177;
+        xPol = new int[] { (int) Math.round(a * size + x), (int) Math.round(c * size + x),
+                (int) Math.round(e * size + x) };
+        yPol = new int[] { (int) Math.round(b * size + y), (int) Math.round(d * size + y),
+                (int) Math.round(f * size + y) };
+        pol = new Polygon(xPol, yPol, 3);
+        g.setColor(col3);
+        g.fillPolygon(pol);
+        c = 142;
+        d = 175;
+        xPol = new int[] { (int) Math.round(a * size + x), (int) Math.round(c * size + x),
+                (int) Math.round(e * size + x) };
+        yPol = new int[] { (int) Math.round(b * size + y), (int) Math.round(d * size + y),
+                (int) Math.round(f * size + y) };
+        pol = new Polygon(xPol, yPol, 3);
+        g.setColor(col4);
+        g.fillPolygon(pol);
+        e = 137;
+        f = 174;
+        xPol = new int[] { (int) Math.round(a * size + x), (int) Math.round(c * size + x),
+                (int) Math.round(e * size + x) };
+        yPol = new int[] { (int) Math.round(b * size + y), (int) Math.round(d * size + y),
+                (int) Math.round(f * size + y) };
+        pol = new Polygon(xPol, yPol, 3);
+        g.setColor(col2);
+        g.fillPolygon(pol);
+        a = 134;
+        b = 169;
+        xPol = new int[] { (int) Math.round(a * size + x), (int) Math.round(c * size + x),
+                (int) Math.round(e * size + x) };
+        yPol = new int[] { (int) Math.round(b * size + y), (int) Math.round(d * size + y),
+                (int) Math.round(f * size + y) };
+        pol = new Polygon(xPol, yPol, 3);
+        g.setColor(col1);
+        g.fillPolygon(pol);
+        c = 132;
+        d = 168;
+        xPol = new int[] { (int) Math.round(a * size + x), (int) Math.round(c * size + x),
+                (int) Math.round(e * size + x) };
+        yPol = new int[] { (int) Math.round(b * size + y), (int) Math.round(d * size + y),
+                (int) Math.round(f * size + y) };
+        pol = new Polygon(xPol, yPol, 3);
+        g.setColor(col3);
+        g.fillPolygon(pol);
+        e = 133;
+        f = 160;
+        xPol = new int[] { (int) Math.round(a * size + x), (int) Math.round(c * size + x),
+                (int) Math.round(e * size + x) };
+        yPol = new int[] { (int) Math.round(b * size + y), (int) Math.round(d * size + y),
+                (int) Math.round(f * size + y) };
+        pol = new Polygon(xPol, yPol, 3);
+        g.setColor(col2);
+        g.fillPolygon(pol);
+        a = 132;
+        b = 156;
+        xPol = new int[] { (int) Math.round(a * size + x), (int) Math.round(c * size + x),
+                (int) Math.round(e * size + x) };
+        yPol = new int[] { (int) Math.round(b * size + y), (int) Math.round(d * size + y),
+                (int) Math.round(f * size + y) };
+        pol = new Polygon(xPol, yPol, 3);
+        g.setColor(col1);
+        g.fillPolygon(pol);
+        c = 135;
+        d = 154;
+        xPol = new int[] { (int) Math.round(a * size + x), (int) Math.round(c * size + x),
+                (int) Math.round(e * size + x) };
+        yPol = new int[] { (int) Math.round(b * size + y), (int) Math.round(d * size + y),
+                (int) Math.round(f * size + y) };
+        pol = new Polygon(xPol, yPol, 3);
+        g.setColor(col4);
+        g.fillPolygon(pol);
+        e = 136;
+        f = 150;
+        xPol = new int[] { (int) Math.round(a * size + x), (int) Math.round(c * size + x),
+                (int) Math.round(e * size + x) };
+        yPol = new int[] { (int) Math.round(b * size + y), (int) Math.round(d * size + y),
+                (int) Math.round(f * size + y) };
+        pol = new Polygon(xPol, yPol, 3);
+        g.setColor(col4);
+        g.fillPolygon(pol);
+        a = 140;
+        b = 149;
+        xPol = new int[] { (int) Math.round(a * size + x), (int) Math.round(c * size + x),
+                (int) Math.round(e * size + x) };
+        yPol = new int[] { (int) Math.round(b * size + y), (int) Math.round(d * size + y),
+                (int) Math.round(f * size + y) };
+        pol = new Polygon(xPol, yPol, 3);
+        g.setColor(col2);
+        g.fillPolygon(pol);
+        c = 146;
+        d = 146;
+        xPol = new int[] { (int) Math.round(a * size + x), (int) Math.round(c * size + x),
+                (int) Math.round(e * size + x) };
+        yPol = new int[] { (int) Math.round(b * size + y), (int) Math.round(d * size + y),
+                (int) Math.round(f * size + y) };
+        pol = new Polygon(xPol, yPol, 3);
+        g.setColor(col1);
+        g.fillPolygon(pol);
+        e = 151;
+        f = 147;
+        xPol = new int[] { (int) Math.round(a * size + x), (int) Math.round(c * size + x),
+                (int) Math.round(e * size + x) };
+        yPol = new int[] { (int) Math.round(b * size + y), (int) Math.round(d * size + y),
+                (int) Math.round(f * size + y) };
+        pol = new Polygon(xPol, yPol, 3);
+        g.setColor(col2);
+        g.fillPolygon(pol);
+        a = 154;
+        b = 149;
+        xPol = new int[] { (int) Math.round(a * size + x), (int) Math.round(c * size + x),
+                (int) Math.round(e * size + x) };
+        yPol = new int[] { (int) Math.round(b * size + y), (int) Math.round(d * size + y),
+                (int) Math.round(f * size + y) };
+        pol = new Polygon(xPol, yPol, 3);
+        g.setColor(col3);
+        g.fillPolygon(pol);
+        c = 157;
+        d = 150;
+        xPol = new int[] { (int) Math.round(a * size + x), (int) Math.round(c * size + x),
+                (int) Math.round(e * size + x) };
+        yPol = new int[] { (int) Math.round(b * size + y), (int) Math.round(d * size + y),
+                (int) Math.round(f * size + y) };
+        pol = new Polygon(xPol, yPol, 3);
+        g.setColor(col4);
+        g.fillPolygon(pol);
+        e = 161;
+        f = 158;
+        xPol = new int[] { (int) Math.round(a * size + x), (int) Math.round(c * size + x),
+                (int) Math.round(e * size + x) };
+        yPol = new int[] { (int) Math.round(b * size + y), (int) Math.round(d * size + y),
+                (int) Math.round(f * size + y) };
+        pol = new Polygon(xPol, yPol, 3);
+        g.setColor(col3);
+        g.fillPolygon(pol);
+        a = 163;
+        b = 164;
+        xPol = new int[] { (int) Math.round(a * size + x), (int) Math.round(c * size + x),
+                (int) Math.round(e * size + x) };
+        yPol = new int[] { (int) Math.round(b * size + y), (int) Math.round(d * size + y),
+                (int) Math.round(f * size + y) };
+        pol = new Polygon(xPol, yPol, 3);
+        g.setColor(col2);
+        g.fillPolygon(pol);
+        c = 159;
+        d = 170;
+        xPol = new int[] { (int) Math.round(a * size + x), (int) Math.round(c * size + x),
+                (int) Math.round(e * size + x) };
+        yPol = new int[] { (int) Math.round(b * size + y), (int) Math.round(d * size + y),
+                (int) Math.round(f * size + y) };
+        pol = new Polygon(xPol, yPol, 3);
+        g.setColor(col1);
+        g.fillPolygon(pol);
+        e = 153;
+        f = 183;
+        xPol = new int[] { (int) Math.round(a * size + x), (int) Math.round(c * size + x),
+                (int) Math.round(e * size + x) };
+        yPol = new int[] { (int) Math.round(b * size + y), (int) Math.round(d * size + y),
+                (int) Math.round(f * size + y) };
+        pol = new Polygon(xPol, yPol, 3);
+        g.setColor(col2);
+        g.fillPolygon(pol);
+        a = 152;
+        b = 178;
+        xPol = new int[] { (int) Math.round(a * size + x), (int) Math.round(c * size + x),
+                (int) Math.round(e * size + x) };
+        yPol = new int[] { (int) Math.round(b * size + y), (int) Math.round(d * size + y),
+                (int) Math.round(f * size + y) };
+        pol = new Polygon(xPol, yPol, 3);
+        g.setColor(col3);
+        g.fillPolygon(pol);
+        c = 146;
+        d = 187;
+        xPol = new int[] { (int) Math.round(a * size + x), (int) Math.round(c * size + x),
+                (int) Math.round(e * size + x) };
+        yPol = new int[] { (int) Math.round(b * size + y), (int) Math.round(d * size + y),
+                (int) Math.round(f * size + y) };
+        pol = new Polygon(xPol, yPol, 3);
+        g.setColor(col4);
+        g.fillPolygon(pol);
+        e = 145;
+        f = 193;
+        xPol = new int[] { (int) Math.round(a * size + x), (int) Math.round(c * size + x),
+                (int) Math.round(e * size + x) };
+        yPol = new int[] { (int) Math.round(b * size + y), (int) Math.round(d * size + y),
+                (int) Math.round(f * size + y) };
+        pol = new Polygon(xPol, yPol, 3);
+        g.setColor(col1);
+        g.fillPolygon(pol);
+        a = 137;
+        b = 195;
+        xPol = new int[] { (int) Math.round(a * size + x), (int) Math.round(c * size + x),
+                (int) Math.round(e * size + x) };
+        yPol = new int[] { (int) Math.round(b * size + y), (int) Math.round(d * size + y),
+                (int) Math.round(f * size + y) };
+        pol = new Polygon(xPol, yPol, 3);
+        g.setColor(col3);
+        g.fillPolygon(pol);
+        c = 135;
+        d = 200;
+        xPol = new int[] { (int) Math.round(a * size + x), (int) Math.round(c * size + x),
+                (int) Math.round(e * size + x) };
+        yPol = new int[] { (int) Math.round(b * size + y), (int) Math.round(d * size + y),
+                (int) Math.round(f * size + y) };
+        pol = new Polygon(xPol, yPol, 3);
+        g.setColor(col2);
+        g.fillPolygon(pol);
+        e = 126;
+        f = 201;
+        xPol = new int[] { (int) Math.round(a * size + x), (int) Math.round(c * size + x),
+                (int) Math.round(e * size + x) };
+        yPol = new int[] { (int) Math.round(b * size + y), (int) Math.round(d * size + y),
+                (int) Math.round(f * size + y) };
+        pol = new Polygon(xPol, yPol, 3);
+        g.setColor(col4);
+        g.fillPolygon(pol);
+        a = 121;
+        b = 206;
+        xPol = new int[] { (int) Math.round(a * size + x), (int) Math.round(c * size + x),
+                (int) Math.round(e * size + x) };
+        yPol = new int[] { (int) Math.round(b * size + y), (int) Math.round(d * size + y),
+                (int) Math.round(f * size + y) };
+        pol = new Polygon(xPol, yPol, 3);
+        g.setColor(col1);
+        g.fillPolygon(pol);
+        c = 106;
+        d = 203;
+        xPol = new int[] { (int) Math.round(a * size + x), (int) Math.round(c * size + x),
+                (int) Math.round(e * size + x) };
+        yPol = new int[] { (int) Math.round(b * size + y), (int) Math.round(d * size + y),
+                (int) Math.round(f * size + y) };
+        pol = new Polygon(xPol, yPol, 3);
+        g.setColor(col4);
+        g.fillPolygon(pol);
+        e = 104;
+        f = 208;
+        xPol = new int[] { (int) Math.round(a * size + x), (int) Math.round(c * size + x),
+                (int) Math.round(e * size + x) };
+        yPol = new int[] { (int) Math.round(b * size + y), (int) Math.round(d * size + y),
+                (int) Math.round(f * size + y) };
+        pol = new Polygon(xPol, yPol, 3);
+        g.setColor(col3);
+        g.fillPolygon(pol);
+        a = 91;
+        b = 203;
+        xPol = new int[] { (int) Math.round(a * size + x), (int) Math.round(c * size + x),
+                (int) Math.round(e * size + x) };
+        yPol = new int[] { (int) Math.round(b * size + y), (int) Math.round(d * size + y),
+                (int) Math.round(f * size + y) };
+        pol = new Polygon(xPol, yPol, 3);
+        g.setColor(col1);
+        g.fillPolygon(pol);
+        c = 92;
+        d = 199;
+        xPol = new int[] { (int) Math.round(a * size + x), (int) Math.round(c * size + x),
+                (int) Math.round(e * size + x) };
+        yPol = new int[] { (int) Math.round(b * size + y), (int) Math.round(d * size + y),
+                (int) Math.round(f * size + y) };
+        pol = new Polygon(xPol, yPol, 3);
+        g.setColor(col4);
+        g.fillPolygon(pol);
+        e = 79;
+        f = 193;
+        xPol = new int[] { (int) Math.round(a * size + x), (int) Math.round(c * size + x),
+                (int) Math.round(e * size + x) };
+        yPol = new int[] { (int) Math.round(b * size + y), (int) Math.round(d * size + y),
+                (int) Math.round(f * size + y) };
+        pol = new Polygon(xPol, yPol, 3);
+        g.setColor(col2);
+        g.fillPolygon(pol);
+        a = 81;
+        b = 190;
+        xPol = new int[] { (int) Math.round(a * size + x), (int) Math.round(c * size + x),
+                (int) Math.round(e * size + x) };
+        yPol = new int[] { (int) Math.round(b * size + y), (int) Math.round(d * size + y),
+                (int) Math.round(f * size + y) };
+        pol = new Polygon(xPol, yPol, 3);
+        g.setColor(col1);
+        g.fillPolygon(pol);
+        c = 72;
+        d = 181;
+        xPol = new int[] { (int) Math.round(a * size + x), (int) Math.round(c * size + x),
+                (int) Math.round(e * size + x) };
+        yPol = new int[] { (int) Math.round(b * size + y), (int) Math.round(d * size + y),
+                (int) Math.round(f * size + y) };
+        pol = new Polygon(xPol, yPol, 3);
+        g.setColor(col3);
+        g.fillPolygon(pol);
+        e = 74;
+        f = 171;
+        xPol = new int[] { (int) Math.round(a * size + x), (int) Math.round(c * size + x),
+                (int) Math.round(e * size + x) };
+        yPol = new int[] { (int) Math.round(b * size + y), (int) Math.round(d * size + y),
+                (int) Math.round(f * size + y) };
+        pol = new Polygon(xPol, yPol, 3);
+        g.setColor(col2);
+        g.fillPolygon(pol);
+        a = 69;
+        b = 162;
+        xPol = new int[] { (int) Math.round(a * size + x), (int) Math.round(c * size + x),
+                (int) Math.round(e * size + x) };
+        yPol = new int[] { (int) Math.round(b * size + y), (int) Math.round(d * size + y),
+                (int) Math.round(f * size + y) };
+        pol = new Polygon(xPol, yPol, 3);
+        g.setColor(col4);
+        g.fillPolygon(pol);
+        c = 75;
+        d = 157;
+        xPol = new int[] { (int) Math.round(a * size + x), (int) Math.round(c * size + x),
+                (int) Math.round(e * size + x) };
+        yPol = new int[] { (int) Math.round(b * size + y), (int) Math.round(d * size + y),
+                (int) Math.round(f * size + y) };
+        pol = new Polygon(xPol, yPol, 3);
+        g.setColor(col2);
+        g.fillPolygon(pol);
+        e = 74;
+        f = 144;
+        xPol = new int[] { (int) Math.round(a * size + x), (int) Math.round(c * size + x),
+                (int) Math.round(e * size + x) };
+        yPol = new int[] { (int) Math.round(b * size + y), (int) Math.round(d * size + y),
+                (int) Math.round(f * size + y) };
+        pol = new Polygon(xPol, yPol, 3);
+        g.setColor(col5);
+        g.fillPolygon(pol);
+        a = 86;
+        b = 138;
+        xPol = new int[] { (int) Math.round(a * size + x), (int) Math.round(c * size + x),
+                (int) Math.round(e * size + x) };
+        yPol = new int[] { (int) Math.round(b * size + y), (int) Math.round(d * size + y),
+                (int) Math.round(f * size + y) };
+        pol = new Polygon(xPol, yPol, 3);
+        g.setColor(col1);
+        g.fillPolygon(pol);
+        c = 87;
+        d = 126;
+        xPol = new int[] { (int) Math.round(a * size + x), (int) Math.round(c * size + x),
+                (int) Math.round(e * size + x) };
+        yPol = new int[] { (int) Math.round(b * size + y), (int) Math.round(d * size + y),
+                (int) Math.round(f * size + y) };
+        pol = new Polygon(xPol, yPol, 3);
+        g.setColor(col3);
+        g.fillPolygon(pol);
+        e = 102;
+        f = 130;
+        xPol = new int[] { (int) Math.round(a * size + x), (int) Math.round(c * size + x),
+                (int) Math.round(e * size + x) };
+        yPol = new int[] { (int) Math.round(b * size + y), (int) Math.round(d * size + y),
+                (int) Math.round(f * size + y) };
+        pol = new Polygon(xPol, yPol, 3);
+        g.setColor(col3);
+        g.fillPolygon(pol);
+        a = 109;
+        b = 109;
+        xPol = new int[] { (int) Math.round(a * size + x), (int) Math.round(c * size + x),
+                (int) Math.round(e * size + x) };
+        yPol = new int[] { (int) Math.round(b * size + y), (int) Math.round(d * size + y),
+                (int) Math.round(f * size + y) };
+        pol = new Polygon(xPol, yPol, 3);
+        g.setColor(col1);
+        g.fillPolygon(pol);
+        c = 121;
+        d = 121;
+        xPol = new int[] { (int) Math.round(a * size + x), (int) Math.round(c * size + x),
+                (int) Math.round(e * size + x) };
+        yPol = new int[] { (int) Math.round(b * size + y), (int) Math.round(d * size + y),
+                (int) Math.round(f * size + y) };
+        pol = new Polygon(xPol, yPol, 3);
+        g.setColor(col4);
+        g.fillPolygon(pol);
+        e = 127;
+        f = 112;
+        xPol = new int[] { (int) Math.round(a * size + x), (int) Math.round(c * size + x),
+                (int) Math.round(e * size + x) };
+        yPol = new int[] { (int) Math.round(b * size + y), (int) Math.round(d * size + y),
+                (int) Math.round(f * size + y) };
+        pol = new Polygon(xPol, yPol, 3);
+        g.setColor(col2);
+        g.fillPolygon(pol);
+        a = 140;
+        b = 114;
+        xPol = new int[] { (int) Math.round(a * size + x), (int) Math.round(c * size + x),
+                (int) Math.round(e * size + x) };
+        yPol = new int[] { (int) Math.round(b * size + y), (int) Math.round(d * size + y),
+                (int) Math.round(f * size + y) };
+        pol = new Polygon(xPol, yPol, 3);
+        g.setColor(col4);
+        g.fillPolygon(pol);
+        c = 140;
+        d = 92;
+        xPol = new int[] { (int) Math.round(a * size + x), (int) Math.round(c * size + x),
+                (int) Math.round(e * size + x) };
+        yPol = new int[] { (int) Math.round(b * size + y), (int) Math.round(d * size + y),
+                (int) Math.round(f * size + y) };
+        pol = new Polygon(xPol, yPol, 3);
+        g.setColor(col1);
+        g.fillPolygon(pol);
+        e = 152;
+        f = 105;
+        xPol = new int[] { (int) Math.round(a * size + x), (int) Math.round(c * size + x),
+                (int) Math.round(e * size + x) };
+        yPol = new int[] { (int) Math.round(b * size + y), (int) Math.round(d * size + y),
+                (int) Math.round(f * size + y) };
+        pol = new Polygon(xPol, yPol, 3);
+        g.setColor(col4);
+        g.fillPolygon(pol);
+        a = 152;
+        b = 85;
+        xPol = new int[] { (int) Math.round(a * size + x), (int) Math.round(c * size + x),
+                (int) Math.round(e * size + x) };
+        yPol = new int[] { (int) Math.round(b * size + y), (int) Math.round(d * size + y),
+                (int) Math.round(f * size + y) };
+        pol = new Polygon(xPol, yPol, 3);
+        g.setColor(col5);
+        g.fillPolygon(pol);
+        c = 166;
+        d = 75;
+        xPol = new int[] { (int) Math.round(a * size + x), (int) Math.round(c * size + x),
+                (int) Math.round(e * size + x) };
+        yPol = new int[] { (int) Math.round(b * size + y), (int) Math.round(d * size + y),
+                (int) Math.round(f * size + y) };
+        pol = new Polygon(xPol, yPol, 3);
+        g.setColor(col3);
+        g.fillPolygon(pol);
+        a = 168;
+        b = 101;
+        xPol = new int[] { (int) Math.round(a * size + x), (int) Math.round(c * size + x),
+                (int) Math.round(e * size + x) };
+        yPol = new int[] { (int) Math.round(b * size + y), (int) Math.round(d * size + y),
+                (int) Math.round(f * size + y) };
+        pol = new Polygon(xPol, yPol, 3);
+        g.setColor(col1);
+        g.fillPolygon(pol);
+        e = 180;
+        f = 91;
+        xPol = new int[] { (int) Math.round(a * size + x), (int) Math.round(c * size + x),
+                (int) Math.round(e * size + x) };
+        yPol = new int[] { (int) Math.round(b * size + y), (int) Math.round(d * size + y),
+                (int) Math.round(f * size + y) };
+        pol = new Polygon(xPol, yPol, 3);
+        g.setColor(col1);
+        g.fillPolygon(pol);
+        a = 188;
+        b = 45;
+        xPol = new int[] { (int) Math.round(a * size + x), (int) Math.round(c * size + x),
+                (int) Math.round(e * size + x) };
+        yPol = new int[] { (int) Math.round(b * size + y), (int) Math.round(d * size + y),
+                (int) Math.round(f * size + y) };
+        pol = new Polygon(xPol, yPol, 3);
+        g.setColor(col4);
+        g.fillPolygon(pol);
+        c = 203;
+        d = 88;
+        xPol = new int[] { (int) Math.round(a * size + x), (int) Math.round(c * size + x),
+                (int) Math.round(e * size + x) };
+        yPol = new int[] { (int) Math.round(b * size + y), (int) Math.round(d * size + y),
+                (int) Math.round(f * size + y) };
+        pol = new Polygon(xPol, yPol, 3);
+        g.setColor(col2);
+        g.fillPolygon(pol);
+        e = 210;
+        f = 64;
+        xPol = new int[] { (int) Math.round(a * size + x), (int) Math.round(c * size + x),
+                (int) Math.round(e * size + x) };
+        yPol = new int[] { (int) Math.round(b * size + y), (int) Math.round(d * size + y),
+                (int) Math.round(f * size + y) };
+        pol = new Polygon(xPol, yPol, 3);
+        g.setColor(col1);
+        g.fillPolygon(pol);
+        c = 230;
+        d = 53;
+        xPol = new int[] { (int) Math.round(a * size + x), (int) Math.round(c * size + x),
+                (int) Math.round(e * size + x) };
+        yPol = new int[] { (int) Math.round(b * size + y), (int) Math.round(d * size + y),
+                (int) Math.round(f * size + y) };
+        pol = new Polygon(xPol, yPol, 3);
+        g.setColor(col2);
+        g.fillPolygon(pol);
+        e = 223;
+        f = 38;
+        xPol = new int[] { (int) Math.round(a * size + x), (int) Math.round(c * size + x),
+                (int) Math.round(e * size + x) };
+        yPol = new int[] { (int) Math.round(b * size + y), (int) Math.round(d * size + y),
+                (int) Math.round(f * size + y) };
+        pol = new Polygon(xPol, yPol, 3);
+        g.setColor(col1);
+        g.fillPolygon(pol);
+        c = 210;
+        d = 17;
+        xPol = new int[] { (int) Math.round(a * size + x), (int) Math.round(c * size + x),
+                (int) Math.round(e * size + x) };
+        yPol = new int[] { (int) Math.round(b * size + y), (int) Math.round(d * size + y),
+                (int) Math.round(f * size + y) };
+        pol = new Polygon(xPol, yPol, 3);
+        g.setColor(col3);
+        g.fillPolygon(pol);
+        a = 225;
+        b = 19;
+        xPol = new int[] { (int) Math.round(a * size + x), (int) Math.round(c * size + x),
+                (int) Math.round(e * size + x) };
+        yPol = new int[] { (int) Math.round(b * size + y), (int) Math.round(d * size + y),
+                (int) Math.round(f * size + y) };
+        pol = new Polygon(xPol, yPol, 3);
+        g.setColor(col2);
+        g.fillPolygon(pol);
+        e = 244;
+        f = 0;
+        xPol = new int[] { (int) Math.round(a * size + x), (int) Math.round(c * size + x),
+                (int) Math.round(e * size + x) };
+        yPol = new int[] { (int) Math.round(b * size + y), (int) Math.round(d * size + y),
+                (int) Math.round(f * size + y) };
+        pol = new Polygon(xPol, yPol, 3);
+        g.setColor(col1);
+        g.fillPolygon(pol);
+
+        // neck splits
+
+        a = 140;
+        b = 92;
+        c = 126;
+        d = 95;
+        e = 127;
+        f = 112;
+        xPol = new int[] { (int) Math.round(a * size + x), (int) Math.round(c * size + x),
+                (int) Math.round(e * size + x) };
+        yPol = new int[] { (int) Math.round(b * size + y), (int) Math.round(d * size + y),
+                (int) Math.round(f * size + y) };
+        pol = new Polygon(xPol, yPol, 3);
+        g.setColor(col3);
+        g.fillPolygon(pol);
+        e = 135;
+        f = 85;
+        xPol = new int[] { (int) Math.round(a * size + x), (int) Math.round(c * size + x),
+                (int) Math.round(e * size + x) };
+        yPol = new int[] { (int) Math.round(b * size + y), (int) Math.round(d * size + y),
+                (int) Math.round(f * size + y) };
+        pol = new Polygon(xPol, yPol, 3);
+        g.setColor(col4);
+        g.fillPolygon(pol);
+        c = 140;
+        d = 79;
+        xPol = new int[] { (int) Math.round(a * size + x), (int) Math.round(c * size + x),
+                (int) Math.round(e * size + x) };
+        yPol = new int[] { (int) Math.round(b * size + y), (int) Math.round(d * size + y),
+                (int) Math.round(f * size + y) };
+        pol = new Polygon(xPol, yPol, 3);
+        g.setColor(col1);
+        g.fillPolygon(pol);
+        e = 152;
+        f = 85;
+        xPol = new int[] { (int) Math.round(a * size + x), (int) Math.round(c * size + x),
+                (int) Math.round(e * size + x) };
+        yPol = new int[] { (int) Math.round(b * size + y), (int) Math.round(d * size + y),
+                (int) Math.round(f * size + y) };
+        pol = new Polygon(xPol, yPol, 3);
+        g.setColor(col2);
+        g.fillPolygon(pol);
+        a = 147;
+        b = 67;
+        xPol = new int[] { (int) Math.round(a * size + x), (int) Math.round(c * size + x),
+                (int) Math.round(e * size + x) };
+        yPol = new int[] { (int) Math.round(b * size + y), (int) Math.round(d * size + y),
+                (int) Math.round(f * size + y) };
+        pol = new Polygon(xPol, yPol, 3);
+        g.setColor(col4);
+        g.fillPolygon(pol);
+        e = 137;
+        f = 63;
+        xPol = new int[] { (int) Math.round(a * size + x), (int) Math.round(c * size + x),
+                (int) Math.round(e * size + x) };
+        yPol = new int[] { (int) Math.round(b * size + y), (int) Math.round(d * size + y),
+                (int) Math.round(f * size + y) };
+        pol = new Polygon(xPol, yPol, 3);
+        g.setColor(col1);
+        g.fillPolygon(pol);
+        a = 123;
+        b = 70;
+        xPol = new int[] { (int) Math.round(a * size + x), (int) Math.round(c * size + x),
+                (int) Math.round(e * size + x) };
+        yPol = new int[] { (int) Math.round(b * size + y), (int) Math.round(d * size + y),
+                (int) Math.round(f * size + y) };
+        pol = new Polygon(xPol, yPol, 3);
+        g.setColor(col4);
+        g.fillPolygon(pol);
+        c = 119;
+        d = 62;
+        xPol = new int[] { (int) Math.round(a * size + x), (int) Math.round(c * size + x),
+                (int) Math.round(e * size + x) };
+        yPol = new int[] { (int) Math.round(b * size + y), (int) Math.round(d * size + y),
+                (int) Math.round(f * size + y) };
+        pol = new Polygon(xPol, yPol, 3);
+        g.setColor(col3);
+        g.fillPolygon(pol);
+        e = 114;
+        f = 70;
+        xPol = new int[] { (int) Math.round(a * size + x), (int) Math.round(c * size + x),
+                (int) Math.round(e * size + x) };
+        yPol = new int[] { (int) Math.round(b * size + y), (int) Math.round(d * size + y),
+                (int) Math.round(f * size + y) };
+        pol = new Polygon(xPol, yPol, 3);
+        g.setColor(col1);
+        g.fillPolygon(pol);
+        a = 110;
+        b = 62;
+        xPol = new int[] { (int) Math.round(a * size + x), (int) Math.round(c * size + x),
+                (int) Math.round(e * size + x) };
+        yPol = new int[] { (int) Math.round(b * size + y), (int) Math.round(d * size + y),
+                (int) Math.round(f * size + y) };
+        pol = new Polygon(xPol, yPol, 3);
+        g.setColor(col4);
+        g.fillPolygon(pol);
+        c = 103;
+        d = 70;
+        xPol = new int[] { (int) Math.round(a * size + x), (int) Math.round(c * size + x),
+                (int) Math.round(e * size + x) };
+        yPol = new int[] { (int) Math.round(b * size + y), (int) Math.round(d * size + y),
+                (int) Math.round(f * size + y) };
+        pol = new Polygon(xPol, yPol, 3);
+        g.setColor(col3);
+        g.fillPolygon(pol);
+        e = 96;
+        f = 69;
+        xPol = new int[] { (int) Math.round(a * size + x), (int) Math.round(c * size + x),
+                (int) Math.round(e * size + x) };
+        yPol = new int[] { (int) Math.round(b * size + y), (int) Math.round(d * size + y),
+                (int) Math.round(f * size + y) };
+        pol = new Polygon(xPol, yPol, 3);
+        g.setColor(col3);
+        g.fillPolygon(pol);
+        c = 109;
+        d = 56;
+        xPol = new int[] { (int) Math.round(a * size + x), (int) Math.round(c * size + x),
+                (int) Math.round(e * size + x) };
+        yPol = new int[] { (int) Math.round(b * size + y), (int) Math.round(d * size + y),
+                (int) Math.round(f * size + y) };
+        pol = new Polygon(xPol, yPol, 3);
+        g.setColor(col1);
+        g.fillPolygon(pol);
+        e = 119;
+        f = 50;
+        xPol = new int[] { (int) Math.round(a * size + x), (int) Math.round(c * size + x),
+                (int) Math.round(e * size + x) };
+        yPol = new int[] { (int) Math.round(b * size + y), (int) Math.round(d * size + y),
+                (int) Math.round(f * size + y) };
+        pol = new Polygon(xPol, yPol, 3);
+        g.setColor(col5);
+        g.fillPolygon(pol);
+
+        // head split
+
+        a = 110;
+        b = 62;
+        c = 119;
+        d = 62;
+        e = 119;
+        f = 58;
+        xPol = new int[] { (int) Math.round(a * size + x), (int) Math.round(c * size + x),
+                (int) Math.round(e * size + x) };
+        yPol = new int[] { (int) Math.round(b * size + y), (int) Math.round(d * size + y),
+                (int) Math.round(f * size + y) };
+        pol = new Polygon(xPol, yPol, 3);
+        g.setColor(col5);
+        g.fillPolygon(pol);
+        c = 116;
+        d = 56;
+        xPol = new int[] { (int) Math.round(a * size + x), (int) Math.round(c * size + x),
+                (int) Math.round(e * size + x) };
+        yPol = new int[] { (int) Math.round(b * size + y), (int) Math.round(d * size + y),
+                (int) Math.round(f * size + y) };
+        pol = new Polygon(xPol, yPol, 3);
+        g.setColor(col1);
+        g.fillPolygon(pol);
+        a = 126;
+        b = 51;
+        xPol = new int[] { (int) Math.round(a * size + x), (int) Math.round(c * size + x),
+                (int) Math.round(e * size + x) };
+        yPol = new int[] { (int) Math.round(b * size + y), (int) Math.round(d * size + y),
+                (int) Math.round(f * size + y) };
+        pol = new Polygon(xPol, yPol, 3);
+        g.setColor(col5);
+        g.fillPolygon(pol);
+
+        // mouth
+
+        a = 96;
+        b = 71;
+        c = 103;
+        d = 70;
+        e = 96;
+        f = 69;
+        xPol = new int[] { (int) Math.round(a * size + x), (int) Math.round(c * size + x),
+                (int) Math.round(e * size + x) };
+        yPol = new int[] { (int) Math.round(b * size + y), (int) Math.round(d * size + y),
+                (int) Math.round(f * size + y) };
+        pol = new Polygon(xPol, yPol, 3);
+        g.setColor(col5);
+        g.fillPolygon(pol);
+    }
+
+    private void drawTree(Graphics g, int x, int y, int size) {
+        BufferedImage buffer = new BufferedImage(601, 601, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2 = buffer.createGraphics();
+        Color colorLine = Color.BLACK;
+        int width = 80;
+        int thickness = 1;
+        // head
+
+        // g2.f
+        int endL[] = { x + 24 * size, y + 154 * size };
+        int endR[] = { x + 53 * size, y + 85 * size };
+        drawBezierCurveMine(g2, endL[0], endL[1], x + 44 * size, y + 124 * size, x + 47 * size, y + 118 * size,
+                        endR[0], endR[1], thickness,
+                        colorLine);
+        endL = endR;
+        endR = new int[] { x + 16 * size, y + 79 * size };
+        drawBezierCurveMine(g2, endL[0], endL[1], x + 36 * size, y + 79 * size, x + 36 * size, y + 79 * size,
+                        endR[0], endR[1], thickness,
+                        colorLine);
+        endL = endR;
+        endR = new int[] { x + 45 * size, y + 78 * size };
+        drawBezierCurveMine(g2, endL[0], endL[1], x + 41 * size, y + 78 * size, x + 41 * size, y + 76 * size,
+                        endR[0], endR[1], thickness,
+                        colorLine);
+        endL = endR;
+        endR = new int[] { x + 0 * size, y + 58 * size };
+        drawBezierCurveMine(g2, endL[0], endL[1], x + 34 * size, y + 68 * size, x + 24 * size, y + 68 * size,
+                        endR[0], endR[1], thickness,
+                        colorLine);
+        endL = endR;
+        endR = new int[] { x + 54 * size, y + 75 * size };
+        drawBezierCurveMine(g2, endL[0], endL[1], x + 37 * size, y + 64 * size, x + 43 * size, y + 69 * size,
+                        endR[0], endR[1], thickness,
+                        colorLine);
+        endL = endR;
+        endR = new int[] { x + 26 * size, y + 55 * size };
+        drawBezierCurveMine(g2, endL[0], endL[1], x + 50 * size, y + 62 * size, x + 46 * size, y + 57 * size,
+                        endR[0], endR[1], thickness,
+                        colorLine);
+        endL = endR;
+        endR = new int[] { x + 38 * size, y + 55 * size };
+        drawBezierCurveMine(g2, endL[0], endL[1], x + 32 * size, y + 54 * size, x + 32 * size, y + 54 * size,
+                        endR[0], endR[1], thickness,
+                        colorLine);
+        endL = endR;
+        endR = new int[] { x + 21 * size, y + 47 * size };
+        drawBezierCurveMine(g2, endL[0], endL[1], x + 30 * size, y + 52 * size, x + 38 * size, y + 50 * size,
+                        endR[0], endR[1], thickness,
+                        colorLine);
+        endL = endR;
+        endR = new int[] { x + 55 * size, y + 62 * size };
+        drawBezierCurveMine(g2, endL[0], endL[1], x + 41 * size, y + 48 * size, x + 49 * size, y + 63 * size,
+                        endR[0], endR[1], thickness,
+                        colorLine);
+        endL = endR;
+        endR = new int[] { x + 26 * size, y + 20 * size };
+        drawBezierCurveMine(g2, endL[0], endL[1], x + 55 * size, y + 41 * size, x + 45 * size, y + 25 * size,
+                        endR[0], endR[1], thickness,
+                        colorLine);
+        endL = endR;
+        endR = new int[] { x + 58 * size, y + 43 * size };
+        drawBezierCurveMine(g2, endL[0], endL[1], x + 43 * size, y + 22 * size, x + 49 * size, y + 31 * size,
+                        endR[0], endR[1], thickness,
+                        colorLine);
+        endL = endR;
+        endR = new int[] { x + 73 * size, y + 0 * size };
+        drawBezierCurveMine(g2, endL[0], endL[1], x + 59 * size, y + 28 * size, x + 65 * size, y + 10 * size,
+                        endR[0], endR[1], thickness,
+                        colorLine);
+        endL = endR;
+        endR = new int[] { x + 67 * size, y + 61 * size };
+        drawBezierCurveMine(g2, endL[0], endL[1], x + 67 * size, y + 31 * size, x + 67 * size, y + 31 * size,
+                        endR[0], endR[1], thickness,
+                        colorLine);
+        endL = endR;
+        endR = new int[] { x + 98 * size, y + 37 * size };
+        drawBezierCurveMine(g2, endL[0], endL[1], x + 77 * size, y + 52 * size, x + 90 * size, y + 54 * size,
+                        endR[0], endR[1], thickness,
+                        colorLine);
+        endL = endR;
+        endR = new int[] { x + 69 * size, y + 70 * size };
+        drawBezierCurveMine(g2, endL[0], endL[1], x + 94 * size, y + 52 * size, x + 86 * size, y + 60 * size,
+                        endR[0], endR[1], thickness,
+                        colorLine);
+        endL = endR;
+        endR = new int[] { x + 133 * size, y + 58 * size };
+        drawBezierCurveMine(g2, endL[0], endL[1], x + 86 * size, y + 61 * size, x + 107 * size, y + 58 * size,
+                        endR[0], endR[1], thickness,
+                        colorLine);
+        endL = endR;
+        endR = new int[] { x + 69 * size, y + 87 * size };
+        drawBezierCurveMine(g2, endL[0], endL[1], x + 102 * size, y + 63 * size, x + 75 * size, y + 79 * size,
+                        endR[0], endR[1], thickness,
+                        colorLine);
+        endL = endR;
+        endR = new int[] { x + 61 * size, y + 154 * size };
+        drawBezierCurveMine(g2, endL[0], endL[1], x + 66 * size, y + 100 * size, x + 55 * size, y + 149 * size,
+                        endR[0], endR[1], thickness,
+                        colorLine);
+        endL = endR;
+        endR = new int[] { x + 24 * size, y + 154 * size };
+        drawBezierCurveMine(g2, endL[0], endL[1], x + 55 * size, y + 148 * size, x + 36 * size, y + 148 * size,
+                        endR[0], endR[1], thickness,
+                        colorLine);
+        buffer = floodFill(buffer, x + 40 * size, y + 140 * size, Color.BLACK);
+        g.drawImage(buffer, 0, 0, null);
+}
 
 }
