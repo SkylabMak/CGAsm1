@@ -8,11 +8,11 @@ import java.util.Queue;
 
 import javax.swing.*;
 
-public class Assignment1 extends JPanel {
+public class Assignment1_65050660_65051027 extends JPanel {
     // final int LINE_WIDTH = 2;
 
     public static void main(String[] args) {
-        Assignment1 n = new Assignment1();
+        Assignment1_65050660_65051027 n = new Assignment1_65050660_65051027();
 
         JFrame f = new JFrame();
         f.add(n);
@@ -52,36 +52,9 @@ public class Assignment1 extends JPanel {
         g.fillOval(x - xR, y - yR, width, height);
     }
 
-    // private void drawnOvalMine(Graphics g, int x, int y, int width, int height,
-    // Color color) {
-    // BufferedImage buffer = new BufferedImage(601, 601,
-    // BufferedImage.TYPE_INT_ARGB);
-    // Graphics2D g2 = buffer.createGraphics();
-    // int xR = width / 2;
-    // int yR = height / 2;
-
-    // g2.setColor(color);
-
-    // for (double angle = 0; angle <= 2 * Math.PI; angle += 0.01) {
-    // int currentX = (int) Math.round(x + xR * Math.cos(angle));
-    // int currentY = (int) Math.round(y + yR * Math.sin(angle));
-
-    // fillRectMine(g2, currentX, currentY,2,color);
-    // // g2.getColor(currentX, currentY);
-    // // g2.get
-    // }
-    // // int startX = x + xR; // Adjust the starting point for flood fill
-    // // int startY = y;
-    // buffer = floodFill(buffer, x, y, color);
-    // // g2.setColor(Color.red);
-    // // g2.fillRect(325, 300, 2, 2);
-    // g.drawImage(buffer, 0, 0, null);
-    // }
-
     private void drawnOvalMine(Graphics g, int x, int y, int width, int height, Color color) {
         BufferedImage buffer = new BufferedImage(601, 601, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2 = buffer.createGraphics();
-        // g2.setColor(color);
         int xR = width / 2;
         int yR = height / 2;
 
@@ -96,8 +69,6 @@ public class Assignment1 extends JPanel {
             for (int i = xStart; i <= xEnd; i++) {
                 for (int j = yStart; j <= yEnd; j++) {
                     if (isVarid(i, j) && isInsideEllipse(i, j, x, y, xR, yR, 2)) {
-                        // g2.fillRect(i, j, 2, 2);
-                        // System.out.println("found");
                         found = true;
                         x = i;
                         y = j;
@@ -107,17 +78,13 @@ public class Assignment1 extends JPanel {
                 if (found)
                     break;
             }
-            // System.out.println();
         }
         buffer = floodFillAlpha(buffer, x, y, color, color);
-        // g2.setColor(Color.RED);
-        // g2.fillRect(x, y, 2, 2);
         g.drawImage(buffer, 0, 0, null);
     }
 
     private void setRGBMine(BufferedImage buffer, int x, int y, int thickness, Color color) {
         int halfThickness = thickness / 2;
-        // g.setColor(color);
         for (int i = -halfThickness; i <= halfThickness; i++) {
             for (int j = -halfThickness; j <= halfThickness; j++) {
                 if (!isVarid(x + i, y + j)) {
@@ -129,8 +96,6 @@ public class Assignment1 extends JPanel {
     }
 
     private boolean isInsideEllipse(int x, int y, int centerX, int centerY, int xRadius, int yRadius, int thickness) {
-        // Ellipse equation: ((x - centerX) / xRadius)^2 + ((y - centerY) / yRadius)^2
-        // <= 1
         double normalizedX = (x - centerX) / (double) (xRadius - thickness);
         double normalizedY = (y - centerY) / (double) (yRadius - thickness);
         double equationResult = Math.pow(normalizedX, 2) + Math.pow(normalizedY, 2);
@@ -172,7 +137,6 @@ public class Assignment1 extends JPanel {
         }
 
         if (colorI != null) {
-            // Fill the inner part of the rectangle
             int tHalf = thickness / 2;
             g.setColor(colorI);
             g.fillPolygon(new int[] { x + tHalf, x2 - tHalf, x4 + tHalf },
@@ -183,60 +147,6 @@ public class Assignment1 extends JPanel {
 
     }
 
-    // private void drawBezierCurve(Graphics g, int x1, int y1, int ctrlX1, int
-    // ctrlY1, int ctrlX2, int ctrlY2, int x2,
-    // int y2, int thickness,
-    // Color color) {
-    // g.setColor(color);
-    // Graphics2D g2d = (Graphics2D) g;
-    // g2d.setStroke(new BasicStroke(thickness, BasicStroke.CAP_ROUND,
-    // BasicStroke.JOIN_ROUND));
-    // CubicCurve2D curve = new CubicCurve2D.Float(x1, y1, ctrlX1, ctrlY1, ctrlX2,
-    // ctrlY2, x2, y2);
-    // g2d.draw(curve);
-    // }
-
-    private void drawBezierCurve(Graphics g, int x1, int y1, int ctrlX, int ctrlY, int x2,
-            int y2, int thickness, Color color) {
-        Graphics2D g2d = (Graphics2D) g;
-        g2d.setColor(color);
-
-        // Set the stroke with round joins and dotted pattern
-        g2d.setStroke(new BasicStroke(thickness, BasicStroke.CAP_ROUND,
-                BasicStroke.JOIN_ROUND, 0));
-
-        QuadCurve2D curve = new QuadCurve2D.Float(x1, y1, ctrlX, ctrlY, x2, y2);
-        g2d.draw(curve);
-
-    }
-
-    private void drawDottedBezierCurve(Graphics g, int x1, int y1, int ctrlX1, int ctrlY1,
-            int ctrlX2, int ctrlY2, int x2, int y2, int thickness, Color color, int dotSpacing) {
-
-        Graphics2D g2d = (Graphics2D) g;
-        g2d.setColor(color);
-
-        // Set the stroke with round joins and dotted pattern
-        g2d.setStroke(new BasicStroke(thickness, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 0,
-                new float[] { dotSpacing }, 0));
-
-        CubicCurve2D curve = new CubicCurve2D.Float(x1, y1, ctrlX1, ctrlY1, ctrlX2, ctrlY2, x2, y2);
-        g2d.draw(curve);
-    }
-
-    private void drawDottedBezierCurve(Graphics g, int x1, int y1, int ctrlX, int ctrlY,
-            int x2, int y2, int thickness, Color color, int dotSpacing) {
-
-        Graphics2D g2d = (Graphics2D) g;
-        g2d.setColor(color);
-
-        // Set the stroke with round joins and dotted pattern
-        g2d.setStroke(new BasicStroke(thickness, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 0,
-                new float[] { dotSpacing }, 0));
-
-        QuadCurve2D curve = new QuadCurve2D.Float(x1, y1, ctrlX, ctrlY, x2, y2);
-        g2d.draw(curve);
-    }
 
     private void drawDottedQuadraticBezierCurveMinePixel(Graphics g, int x1, int y1, int ctrlX, int ctrlY,
             int x2, int y2, int thickness, Color color, int dotSpacing, int lenDrawn) {
@@ -269,7 +179,6 @@ public class Assignment1 extends JPanel {
     private void drawDottedQuadraticBezierCurveMine(Graphics g, int x1, int y1, int ctrlX, int ctrlY,
             int x2, int y2, int thickness, Color color, int dotSpacing, int lenDrawn) {
         int resolution = 500;
-        int[] previous = new int[] { x1, y1 };
         int countLenDrawn = 0;
 
         for (int t = 0; t <= resolution; t++) {
@@ -290,10 +199,10 @@ public class Assignment1 extends JPanel {
     private void drawLine(Graphics g, int x1, int y1, int x2, int y2, Color color, int thickness) {
         int dx = Math.abs(x2 - x1);
         int dy = Math.abs(y2 - y1);
-        int sx = (x1 < x2) ? 1 : -1; // left or right
-        int sy = (y1 < y2) ? 1 : -1; // down or up
+        int sx = (x1 < x2) ? 1 : -1;
+        int sy = (y1 < y2) ? 1 : -1;
         boolean isSwap = false;
-        if (dy > dx) {// if dy is main run
+        if (dy > dx) {
             int dxT = dx;
             dx = dy;
             dy = dxT;
@@ -304,20 +213,19 @@ public class Assignment1 extends JPanel {
         int x = x1;
         int y = y1;
 
-        for (int i = 1; i <= dx; i++) {// this is move main x or y but that is distance
+        for (int i = 1; i <= dx; i++) {
             fillRectMine(g, x, y, thickness, color);
-            // plot(g, x, y);
 
             if (D >= 0) {
                 if (isSwap)
-                    x += sx;// if y main move x
+                    x += sx;
                 else
                     y += sy;
 
                 D -= 2 * dx;
             }
             if (isSwap)
-                y += sy; // if y main move y
+                y += sy; 
             else
                 x += sx;
 
@@ -340,7 +248,6 @@ public class Assignment1 extends JPanel {
             int y = (int) (uComp * uComp * uComp * y1 + 3 * uComp * uComp * u * ctrlY1
                     + 3 * uComp * u * u * ctrlY2 + u * u * u * y2);
 
-            // Draw rectangles to simulate thickness
             if (t == 0 || t == resolution) {
                 fillRectWithRound(g, x, y, thickness, color);
             } else {
@@ -362,7 +269,6 @@ public class Assignment1 extends JPanel {
             int x = (int) (uComp * uComp * x1 + 2 * uComp * u * ctrlX + u * u * x2);
             int y = (int) (uComp * uComp * y1 + 2 * uComp * u * ctrlY + u * u * y2);
 
-            // plot(g, x, y);
             fillRectMine(g, x, y, thickness, color);
         }
     }
