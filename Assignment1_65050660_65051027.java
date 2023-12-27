@@ -1,6 +1,4 @@
 import java.awt.*;
-import java.awt.geom.CubicCurve2D;
-import java.awt.geom.QuadCurve2D;
 import java.awt.image.BufferedImage;
 import java.util.LinkedList;
 import java.util.Random;
@@ -147,7 +145,6 @@ public class Assignment1_65050660_65051027 extends JPanel {
 
     }
 
-
     private void drawDottedQuadraticBezierCurveMinePixel(Graphics g, int x1, int y1, int ctrlX, int ctrlY,
             int x2, int y2, int thickness, Color color, int dotSpacing, int lenDrawn) {
         int resolution = 500;
@@ -225,7 +222,7 @@ public class Assignment1_65050660_65051027 extends JPanel {
                 D -= 2 * dx;
             }
             if (isSwap)
-                y += sy; 
+                y += sy;
             else
                 x += sx;
 
@@ -270,6 +267,23 @@ public class Assignment1_65050660_65051027 extends JPanel {
             int y = (int) (uComp * uComp * y1 + 2 * uComp * u * ctrlY + u * u * y2);
 
             fillRectMine(g, x, y, thickness, color);
+        }
+    }
+
+    private void drawBezierCurveMineBuffer(BufferedImage bufferedImage, int x1, int y1, int ctrlX1, int ctrlY1,
+            int ctrlX2, int ctrlY2, int x2, int y2, int thickness, Color color) {
+        int resolution = 500;
+
+        for (int t = 0; t <= resolution; t++) {
+            float u = t / (float) resolution;
+            float uComp = 1 - u;
+
+            int x = (int) (uComp * uComp * uComp * x1 + 3 * uComp * uComp * u * ctrlX1
+                    + 3 * uComp * u * u * ctrlX2 + u * u * u * x2);
+            int y = (int) (uComp * uComp * uComp * y1 + 3 * uComp * uComp * u * ctrlY1
+                    + 3 * uComp * u * u * ctrlY2 + u * u * u * y2);
+            setRGBMine(bufferedImage, x, y, thickness, color);
+
         }
     }
 
@@ -328,11 +342,7 @@ public class Assignment1_65050660_65051027 extends JPanel {
         int borderRGB = border.getRGB();
         int replaceRGB = replace.getRGB();
         if (border.getAlpha() != 255) {
-            // borderRGB-=1;
         }
-        // }
-        // System.out.println("1 "+m.getRGB(325, 301));
-        // System.out.println("2 "+(borderRGB));
         int[] currentPos;
         while (!q.isEmpty()) {
             currentPos = q.poll();
@@ -367,8 +377,8 @@ public class Assignment1_65050660_65051027 extends JPanel {
         Queue<int[]> q = new LinkedList<>();
 
         q.add(new int[] { x, y });
-        int borderRGB = border.getRGB() & 0xFFFFFF; // Mask out alpha channel
-        int replaceRGB = replace.getRGB() & 0xFFFFFF; // Mask out alpha channel
+        int borderRGB = border.getRGB() & 0xFFFFFF;
+        int replaceRGB = replace.getRGB() & 0xFFFFFF;
 
         int[] currentPos;
         while (!q.isEmpty()) {
@@ -377,7 +387,7 @@ public class Assignment1_65050660_65051027 extends JPanel {
             int y1 = currentPos[1];
 
             if (isVarid(x1, y1)) {
-                int rgb = m.getRGB(x1, y1) & 0xFFFFFF; // Mask out alpha channel
+                int rgb = m.getRGB(x1, y1) & 0xFFFFFF;
                 if (rgb != borderRGB && rgb != replaceRGB) {
                     m.setRGB(x1, y1, replace.getRGB());
                     // south
@@ -415,62 +425,25 @@ public class Assignment1_65050660_65051027 extends JPanel {
         return m;
     }
 
-    private int getRGBWithoutAlpha(Color color) {
-        return (color.getRed() << 16) | (color.getGreen() << 8) | color.getBlue();
-    }
+    private void drawEllipse(BufferedImage buffer, int centerX, int centerY, int a, int b, int thickness,
+            Color color) {
+        int aHalf = a;
+        int bHalf = b;
 
-    private void drawEllipse(BufferedImage buffer, int centerX, int centerY, int a, int b, int thickness, Color color) {
-        int a2 = a * a;
-        int b2 = b * b;
-        int twoA2 = 2 * a2;
-        int twoB2 = 2 * b2;
+        int ctrlPointX = (int) (a * 0.55191502449); // Approximately 4*(sqrt(2)-1)/3
+        int ctrlPointY = (int) (b * 0.55191502449); // Approximately 4*(sqrt(2)-1)/3
 
-        // REGION 1
-        int x = 0;
-        int y = b;
-        int D = Math.round(b2 - a2 * b + a2 / 4);
-        int Dx = 0;
-        int Dy = twoA2 * y;
+        // First quadrant
+        drawBezierCurveMineBuffer(buffer, centerX, centerY - bHalf, centerX + ctrlPointX, centerY - bHalf,
+                centerX + aHalf, centerY - ctrlPointY, centerX + aHalf, centerY, thickness, color);
+        drawBezierCurveMineBuffer(buffer, centerX + aHalf, centerY, centerX + aHalf, centerY + ctrlPointY,
+                centerX + ctrlPointX, centerY + bHalf, centerX, centerY + bHalf, thickness, color);
 
-        while (Dx <= Dy) {
-            plotQuadrants(buffer, centerX, centerY, x, y, thickness, color);
-            x = x + 1;
-            Dx = Dx + twoB2;
-            D = D + Dx + b2;
-
-            if (D >= 0) {
-                y = y - 1;
-                Dy = Dy - twoA2;
-                D = D - Dy;
-            }
-        }
-
-        // REGION 2
-        x = a;
-        y = 0;
-        D = Math.round(a2 - b2 * a + b2 / 4);
-        Dx = twoB2 * x;
-        Dy = 0;
-
-        while (Dx >= Dy) {
-            plotQuadrants(buffer, centerX, centerY, x, y, thickness, color);
-            y = y + 1;
-            Dy = Dy + twoA2;
-            D = D + Dy + a2;
-
-            if (D >= 0) {
-                x = x - 1;
-                Dx = Dx - twoB2;
-                D = D - Dx;
-            }
-        }
-    }
-
-    private void plotQuadrants(BufferedImage b, int centerX, int centerY, int x, int y, int thickness, Color color) {
-        setRGBMine(b, centerX + x, centerY + y, thickness, color);
-        setRGBMine(b, centerX - x, centerY + y, thickness, color);
-        setRGBMine(b, centerX + x, centerY - y, thickness, color);
-        setRGBMine(b, centerX - x, centerY - y, thickness, color);
+        // Second quadrant
+        drawBezierCurveMineBuffer(buffer, centerX, centerY + bHalf, centerX - ctrlPointX, centerY + bHalf,
+                centerX - aHalf, centerY + ctrlPointY, centerX - aHalf, centerY, thickness, color);
+        drawBezierCurveMineBuffer(buffer, centerX - aHalf, centerY, centerX - aHalf, centerY - ctrlPointY,
+                centerX - ctrlPointX, centerY - bHalf, centerX, centerY - bHalf, thickness, color);
     }
 
     // --------------------------------------- work
@@ -482,11 +455,8 @@ public class Assignment1_65050660_65051027 extends JPanel {
     // --------------------------------------- work
     // space---------------------------------------
     private void myPaint(Graphics g) {
-        // g.drawPdrawPolygon(g,1200, 1200, 0.5);
-        // พื้นหลัง
+        // background
         drawRectangle(g, 0, 0, 600, 600, Color.WHITE);
-
-        // test method
 
         // work space
         // sky
@@ -505,8 +475,8 @@ public class Assignment1_65050660_65051027 extends JPanel {
         drawnMiniFireWorks(g, 340, 600, 50, 50);
         // gound
         drawnGround(g, 0, 0);
-        drawHuman(g, 300, 300, 100);
-        drawHuman(g, 410, 300, 100);
+        drawHuman(g, 300, 300);
+        drawHuman(g, 410, 300);
         drawNoteBook(g, 10, 500);
 
     }
@@ -530,13 +500,6 @@ public class Assignment1_65050660_65051027 extends JPanel {
     }
 
     private void drawnSky(Graphics g, int x, int y) {
-        // start from top down
-        // Color colorStart = new Color(167, 138, 124);
-        // Color colorEnd = new Color(4, 16, 44);
-        // Color colorStart = new Color(68, 106, 168);
-        // Color colorEnd = new Color(9, 19, 46);
-        // Color colorStart = new Color(121, 163, 185);
-        // Color colorEnd = new Color(9, 12, 17);
         Color colorStart = new Color(105, 90, 109);
         Color colorEnd = new Color(18, 26, 58);
         float count = 300f;
@@ -554,11 +517,7 @@ public class Assignment1_65050660_65051027 extends JPanel {
                 ratio = 1.0f;
             }
             Color colorCurrent = interpolateColor(colorStart, colorEnd, ratio);
-            // double r = (double) (i/count)*height;
-            // System.out.println(r );
             int currentY = (int) (maxHeight - ((i / count) * height));
-            // int currentY = (int)(((i/count)*height));
-            // System.out.println(currentY);
             drawBezierCurveMine(g, -50, currentY, 200, currentY - 50, 400, currentY + 50, 650, currentY, (int) step * 3,
                     colorCurrent);
         }
@@ -573,8 +532,6 @@ public class Assignment1_65050660_65051027 extends JPanel {
         float step = height / count;
         System.out.println(step);
         float divider = 0.1f;
-        // float weight = 0.1f;
-        // sky
         for (int i = 0; i <= count; i++) {
             float ratio = (float) i / count;
             if (i <= count * divider) {
@@ -582,8 +539,6 @@ public class Assignment1_65050660_65051027 extends JPanel {
             } else {
                 ratio = 1.0f;
             }
-
-            // float ratioColor = (float) Math.pow(ratio, weight);
             Color colorCurrent = interpolateColor(colorStart, colorEnd, ratio);
             int currentY = (int) (minHeight + (i / count) * height);
             drawBezierCurveMine(g, -50, currentY, 200, currentY - 50, 400, currentY + 50, 650, currentY, (int) step * 3,
@@ -600,7 +555,6 @@ public class Assignment1_65050660_65051027 extends JPanel {
     }
 
     private void drawNoteBook(Graphics g, int x, int y) {
-        // g.setColor(Color.BLACK);
         // base - board
         BufferedImage buffer = new BufferedImage(601, 601, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2 = buffer.createGraphics();
@@ -661,21 +615,17 @@ public class Assignment1_65050660_65051027 extends JPanel {
     private void drawOvalGradient(Graphics g, int x, int y, int width, int height) {
         int centerX = x + (width / 2);
         int centerY = y + (height / 2);
-        // System.out.println(isVarid(centerX, centerY ));
         width *= 1.5;
         height *= 1.5;
         int count = 100;
 
-        // Different RGB values for start and end colors
         Color colorStart = new Color(217, 184, 165, 255 / (count / 2 / 2 / 2));
         Color colorEnd = new Color(217, 184, 165, 0);
 
-        // Color colorMid = interpolateColor(colorStart, colorEnd, 0.5f);
-        float weight = 0.5f; // Adjust this value to control the gradient ratio
+        float weight = 0.5f;
 
         for (int i = count; i >= 1; i--) {
             float ratio = (float) i / count;
-            // Adjusted ratio for color interpolation using a power function
             float ratioColor = (float) Math.pow(ratio, weight);
             Color colorCurrent = interpolateColor(colorStart, colorEnd, ratioColor);
             int xR = interpolateNumber(1, width, ratio);
@@ -711,11 +661,10 @@ public class Assignment1_65050660_65051027 extends JPanel {
 
     }
 
-    private void drawHuman(Graphics g, int x, int y, int size) {
+    private void drawHuman(Graphics g, int x, int y) {
         BufferedImage buffer = new BufferedImage(601, 601, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2 = buffer.createGraphics();
         Color colorLine = Color.BLACK;
-        int width = 80;
         int thickness = 2;
         // head
 
