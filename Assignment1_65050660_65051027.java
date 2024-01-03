@@ -43,13 +43,6 @@ public class Assignment1_65050660_65051027 extends JPanel {
         }
     }
 
-    private void drawnOval(Graphics g, int x, int y, int width, int height, Color color) {
-        g.setColor(color);
-        int xR = width / 2;
-        int yR = height / 2;
-        g.fillOval(x - xR, y - yR, width, height);
-    }
-
     private void drawnOvalMine(Graphics g, int x, int y, int width, int height, Color color) {
         BufferedImage buffer = new BufferedImage(601, 601, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2 = buffer.createGraphics();
@@ -609,7 +602,7 @@ public class Assignment1_65050660_65051027 extends JPanel {
     private void drawMoon(Graphics g, int x, int y, int width, int height) {
         int centerX = x + (width / 2);
         int centerY = y + (height / 2);
-        drawnOval(g, centerX, centerY, width, height, Color.decode("#C0C3D4"));
+        drawnOvalMine(g, centerX, centerY, width, height, Color.decode("#C0C3D4"));
     }
 
     private void drawOvalGradient(Graphics g, int x, int y, int width, int height) {
